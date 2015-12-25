@@ -1,6 +1,11 @@
 {
-  "name": "SQLiteExample",
+  "name": "SQLSandbox",
   "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pcottle/SQLSandbox"
+  },
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
   },
