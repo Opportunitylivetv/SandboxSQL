@@ -4,7 +4,11 @@
  */
 module.exports = {
   DARK_LOVE: '#7B86E2',
-  BASE_WASH: '#FBFCD0',
+  /* 
+   * originally #FBFCD0 but
+   * modified to be not as intense
+   */
+  BASE_WASH: '#F8F9E7',
   AQUA: '#D1E7F9',
   DEEPER_AQUA: '#C4D0F5',
   DARK_PINK: '#7AA7D6',
