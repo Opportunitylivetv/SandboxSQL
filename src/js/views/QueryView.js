@@ -29,7 +29,7 @@ var QueryView = React.createClass({
           Enter a query:
         </Text>
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          style={styles.textInput}
           multiline={true}
           value={this.state.query}
           onChangeText={(query) => this.setState({query})}
@@ -92,6 +92,11 @@ var QueryView = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  textInput: {
+    height: 40, 
+    borderColor: 'gray', 
+    borderWidth: 1,
+  },
   execute: {
     backgroundColor: '#D1E7F9',
   },
