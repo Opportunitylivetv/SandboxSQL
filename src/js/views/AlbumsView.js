@@ -18,6 +18,7 @@ var AlbumsView = React.createClass({
     return (
       <View style={styles.wrapper}>
         <ListView
+          automaticallyAdjustContentInsets={false}
           dataSource={this.state.dataSource}
           renderRow={this._renderTrack}
           renderSectionHeader={this._renderSectionHeader}
@@ -27,7 +28,10 @@ var AlbumsView = React.createClass({
   },
 
   getInitialState: function () {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2, sectionHeaderHasChanged: (r1, r2) => r1 !== r2});
+    var ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2, 
+      sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
+    });
     return {
       dataSource: ds
     };
@@ -60,7 +64,7 @@ var AlbumsView = React.createClass({
       });
   },
 
-  _renderTrack: function (track) {
+  _renderTrack: function(track) {
     return (
       <View>
         <View style={styles.listItem}>
@@ -71,7 +75,7 @@ var AlbumsView = React.createClass({
     );
   },
 
-  _renderSectionHeader: function (sectionData, sectionId) {
+  _renderSectionHeader: function(sectionData, sectionId) {
     return (
       <View>
         <View style={styles.albumHeading}><Text>{{ sectionId }}</Text></View>
@@ -94,8 +98,8 @@ var styles = StyleSheet.create({
     backgroundColor: 'black'
   },
   wrapper: {
-    backgroundColor: '#F8F9E7',
     flex: 1,
+    backgroundColor: '#F8F9E7',
     justifyContent: 'center',
   },
 });

@@ -25,6 +25,9 @@ var QueryView = React.createClass({
   render: function() {
     return (
       <View style={styles.wrapper}>
+        <Text>
+          Enter a query:
+        </Text>
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           multiline={true}
@@ -66,10 +69,9 @@ var QueryView = React.createClass({
   },
 
   navToArtists: function() {
-    this.props.navigator.push({
-      title: 'Artists',
-      component: Artists,
-    });
+    this.props.navigator.push(
+      Routes.getRouteForID(Routes.ALL_ARTISTS),
+    );
   },
 
   executeQuery: function() {
@@ -96,7 +98,6 @@ var styles = StyleSheet.create({
   wrapper: {
     backgroundColor: '#F8F9E7',
     flex: 1,
-    justifyContent: 'center',
   },
 });
 

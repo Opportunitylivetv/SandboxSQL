@@ -18,6 +18,7 @@ var AllArtistsView = React.createClass({
     return (
       <View style={styles.wrapper}>
         <ListView
+          automaticallyAdjustContentInsets={false}
           dataSource={this.state.dataSource}
           renderRow={this._renderArtist}
           renderScrollComponent={
