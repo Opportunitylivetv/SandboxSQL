@@ -5,13 +5,16 @@
 
 var React = require('react-native');
 var {
+  ActivityIndicatorIOS,
   AppRegistry,
   StyleSheet,
   Text,
   View,
   NavigatorIOS,
   TouchableHighlight,
-  ListView
+  RecyclerViewBackedScrollView,
+  TextInput,
+  ListView,
 } = React;
 
 var SQLite = require('react-native-sqlite');
@@ -21,19 +24,84 @@ var SQLite = require('react-native-sqlite');
 // app sandbox's documents directory on first use.
 var database = SQLite.open("chinook.sqlite");
 
+var rethrowOr = (cb) => {
+  return (err) => {
+    if (err) {
+      throw err;
+    }
+    cb && cb();
+  };
+};
+
 var SQLiteExample = React.createClass({
   render: function() {
     return (
       <NavigatorIOS
         style={styles.container}
-        ref
         initialRoute={{
+          component: QueryView,
+          title: 'Query',
+          /*
           component: Artists,
-          title: 'Artists'
+title: 'Artists'*/
         }}
       />
     );
   }
+});
+
+var QueryView = React.createClass({
+
+  getInitialState: function() {
+    return {
+      isLoading: false,
+      query: `SELECT * FROM Artist WHERE Name LIKE '%Aaron%'`,
+      rows: [],
+    };
+  },
+
+  render: function() {
+    return (
+      <View style={styles.wrapper}>
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          multiline={true}
+          value={this.state.query}
+          onChangeText={(query) => this.setState({query})}
+        />
+        <Text>
+          Execute:
+          {this.state.query}
+          ?
+        </Text>
+        <TouchableHighlight
+          underlayColor="#005F6B"
+          onPress={this.executeQuery}>
+          <Text>
+            Query!
+          </Text>
+        </TouchableHighlight>
+        <Text>
+          Num Rows:
+          {this.state.rows.length}
+          {this.state.rows.map(
+            row => JSON.stringify(row)
+          ).join(', ')}
+        </Text>
+      </View>
+    );
+  },
+
+  executeQuery: function() {
+    var rows = [];
+    database.executeSQL(
+      this.state.query, 
+      [], 
+      (row) => rows.push(row),
+      rethrowOr(() => this.setState({rows})),
+    );
+  },
+
 });
 
 var Artists = React.createClass({
@@ -43,37 +111,45 @@ var Artists = React.createClass({
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderArtist}
-          />
+          renderScrollComponent={
+            props => <RecyclerViewBackedScrollView {...props} />
+          }
+        />
       </View>
     );
   },
 
   getInitialState: function () {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    return {
-      dataSource: ds
+    var dataSource = new ListView.DataSource(
+      {rowHasChanged: (r1, r2) => r1.name !== r2.name }
+    );
+    return { 
+      dataSource,
+      manualQuery: '',
     };
   },
 
   componentDidMount: function () {
     var artists = [];
     database.executeSQL(
-      "SELECT Artist.ArtistId, Artist.Name, count(DISTINCT Album.AlbumId) as AlbumCount, count(DISTINCT Track.TrackId) as TrackCount FROM Artist " +
-        "JOIN Album ON Album.ArtistId = Artist.ArtistId " +
-        "JOIN Track ON Track.AlbumId = Album.AlbumId " +
-        "GROUP BY Artist.ArtistId " +
-        "ORDER BY Artist.Name ",
+      `
+      SELECT
+        Artist.ArtistId, 
+        Artist.Name, 
+        count(DISTINCT Album.AlbumId) as AlbumCount, 
+        count(DISTINCT Track.TrackId) as TrackCount 
+      FROM Artist
+      JOIN Album ON Album.ArtistId = Artist.ArtistId
+      JOIN Track ON Track.AlbumId = Album.AlbumId
+      GROUP BY Artist.ArtistId
+      ORDER BY Artist.Name
+      `,
       [],
       (row) => {
         artists.push(row);
       },
-      (error) => {
-        if (error) {
-          throw error;
-        } else {
-          this.setState({dataSource: this.state.dataSource.cloneWithRows(artists)});
-        }
-      });
+      rethrowOr(() => this.setState({dataSource: this.state.dataSource.cloneWithRows(artists)})),
+    );
   },
 
   _renderArtist: function (artist) {
@@ -122,10 +198,16 @@ var Albums = React.createClass({
   componentDidMount: function () {
     var tracks = {};
     database.executeSQL(
-      "SELECT Album.Title as AlbumName, Track.TrackId, Track.Name FROM Track " +
-        "JOIN Album ON Album.AlbumId = Track.AlbumId " +
-        "WHERE Album.ArtistId = ? " +
-        "ORDER BY Album.Title, Track.Name",
+      `
+      SELECT 
+        Album.Title as AlbumName, 
+        Track.TrackId, 
+        Track.Name 
+      FROM Track
+      JOIN Album ON Album.AlbumId = Track.AlbumId
+      WHERE Album.ArtistId = ?
+      ORDER BY Album.Title, Track.Name
+      `,
       [this.props.artistId],
       (row) => {
         tracks[row.AlbumName] = tracks[row.AlbumName] || [];
@@ -190,22 +272,25 @@ var Track = React.createClass({
   componentDidMount: function () {
     var tracks = {};
     database.executeSQL(
-      "SELECT * FROM Track WHERE TrackId = ?",
+      `
+      SELECT * FROM Track WHERE TrackId = ?
+      `,
       [this.props.trackId],
       (row) => {
         this.setState({track: row});
       },
-      (error) => {
-        if (error) {
-          throw error;
-        }
-      });
+      rethrowOr(),
+    );
   }
 });
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   wrapper: {
     flex: 1,
