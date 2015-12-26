@@ -9,6 +9,7 @@ var {
 } = React;
 var DB = require('../data/DB');
 var rethrowOr = require('../utils/rethrowOr');
+var Routes = require('../constants/Routes');
 
 var database = DB.getMusicDB();
 
@@ -54,7 +55,6 @@ var AllArtistsView = React.createClass({
       `,
       [],
       (row) => {
-        console.log('the row', row);
         artists.push(row);
       },
       rethrowOr(() => this.setState({dataSource: this.state.dataSource.cloneWithRows(artists)})),
@@ -78,7 +78,7 @@ var AllArtistsView = React.createClass({
   _selectArtist: function (artist) {
     this.props.navigator.push(
       Routes.getRouteWithParams(
-        Routes.ARTIST,
+        Routes.ALBUMS,
         {artistID: artist.ArtistId}
       ),
     );

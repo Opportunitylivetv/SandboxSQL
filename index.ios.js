@@ -17,6 +17,7 @@ var {
 } = React;
 var QueryView = require('./src/js/views/QueryView');
 var AllArtistsView = require('./src/js/views/AllArtistsView');
+var AlbumsView = require('./src/js/views/AlbumsView');
 var Routes = require('./src/js/constants/Routes.js');
 
 var INITIAL_ROUTE = Routes.ALL_ARTISTS;
@@ -28,9 +29,9 @@ var SQLiteExample = React.createClass({
         return <AllArtistsView navigator={navigator} />;
       case Routes.QUERY:
         return <QueryView navigator={navigator} />;
-      case Routes.ARTIST:
+      case Routes.ALBUMS:
         return (
-          <ArtistView 
+          <AlbumsView
             navigator={navigator} 
             artistID={route.artistID}
           />

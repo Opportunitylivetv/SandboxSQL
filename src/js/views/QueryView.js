@@ -7,8 +7,8 @@ var {
   TextInput,
 } = React;
 var DB = require('../data/DB');
+var Routes = require('../constants/Routes');
 
-var SQLite = require('react-native-sqlite');
 var database = DB.getMusicDB();
 
 var QueryView = React.createClass({
