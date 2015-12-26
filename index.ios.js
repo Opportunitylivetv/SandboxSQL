@@ -41,9 +41,6 @@ var SQLiteExample = React.createClass({
         initialRoute={{
           component: QueryView,
           title: 'Query',
-          /*
-          component: Artists,
-title: 'Artists'*/
         }}
       />
     );
@@ -55,6 +52,7 @@ var QueryView = React.createClass({
   getInitialState: function() {
     return {
       isLoading: false,
+      error: null,
       query: `SELECT * FROM Artist WHERE Name LIKE '%Aaron%'`,
       rows: [],
     };
@@ -78,7 +76,7 @@ var QueryView = React.createClass({
           underlayColor="#005F6B"
           onPress={this.executeQuery}>
           <Text>
-            Query!
+            Query bro!
           </Text>
         </TouchableHighlight>
         <Text>
@@ -88,8 +86,25 @@ var QueryView = React.createClass({
             row => JSON.stringify(row)
           ).join(', ')}
         </Text>
+        <Text>
+          {!this.state.error ? null : this.state.error.toString()}
+        </Text>
+        <TouchableHighlight
+          underlayColor="#005F6B"
+          onPress={this.navToArtists}>
+          <Text>
+            All Artists
+          </Text>
+        </TouchableHighlight>
       </View>
     );
+  },
+
+  navToArtists: function() {
+    this.props.navigator.push({
+      title: 'Artists',
+      component: Artists,
+    });
   },
 
   executeQuery: function() {
@@ -98,7 +113,12 @@ var QueryView = React.createClass({
       this.state.query, 
       [], 
       (row) => rows.push(row),
-      rethrowOr(() => this.setState({rows})),
+      (err) => {
+        this.setState({
+          error: err,
+          rows,
+        });
+      },
     );
   },
 
