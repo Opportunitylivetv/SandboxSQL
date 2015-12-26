@@ -73,6 +73,7 @@ var QueryView = React.createClass({
           ?
         </Text>
         <TouchableHighlight
+          style={styles.execute}
           underlayColor="#005F6B"
           onPress={this.executeQuery}>
           <Text>
@@ -305,6 +306,9 @@ var Track = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  execute: {
+    backgroundColor: '#D1E7F9',
+  },
   container: {
     flex: 1,
   },
