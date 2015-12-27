@@ -9,6 +9,7 @@ var {
 var DB = require('../data/DB');
 var DBInfo = require('../data/DBInfo');
 var Routes = require('../constants/Routes');
+var QueryResultView = require('../views/QueryResultView');
 
 var database = DB.getMusicDB();
 
@@ -17,9 +18,8 @@ var QueryView = React.createClass({
   getInitialState: function() {
     return {
       isLoading: false,
-      error: null,
-      query: `SELECT * FROM Artist WHERE Name LIKE '%Aaron%'`,
-      rows: [],
+      query: null,
+      queryText: `SELECT * FROM Artist WHERE Name LIKE '%Aaron%'`,
       tables: null,
       tableInfo: null,
     };
@@ -51,35 +51,33 @@ var QueryView = React.createClass({
         <TextInput
           style={styles.textInput}
           multiline={true}
-          value={this.state.query}
-          onChangeText={(query) => this.setState({query})}
+          value={this.state.queryText}
+          onChangeText={(queryText) => this.setState({queryText})}
         />
         <Text>
           Execute:
-          {this.state.query}
+          {this.state.queryText}
           ?
+        </Text>
+        <Text>
+          Actual query:
+          {this.state.query}
         </Text>
         <TouchableHighlight
           style={styles.execute}
           underlayColor="#005F6B"
           onPress={this.executeQuery}>
           <Text>
-            Query bro!
+            Query dude!
           </Text>
         </TouchableHighlight>
-        <Text>
-          {!this.state.tables ? 'Loading Tables...' : this.state.tables.join(',')}
-        </Text>
-        <Text>
-          Num Rows:
-          {this.state.rows.length}
-          {this.state.rows.map(
-            row => JSON.stringify(row)
-          ).join(', ')}
-        </Text>
-        <Text>
-          {!this.state.error ? null : this.state.error.toString()}
-        </Text>
+        {!this.state.query ? null :
+          <QueryResultView
+            key={this.state.query}
+            database={database}
+            query={this.state.query}
+          />
+        }
         <TouchableHighlight
           underlayColor="#005F6B"
           onPress={this.navToArtists}>
@@ -98,18 +96,10 @@ var QueryView = React.createClass({
   },
 
   executeQuery: function() {
-    var rows = [];
-    database.executeSQL(
-      this.state.query, 
-      [], 
-      (row) => rows.push(row),
-      (err) => {
-        this.setState({
-          error: err,
-          rows,
-        });
-      },
-    );
+    console.log('executing', this.state.queryText);
+    this.setState({
+      query: this.state.queryText,
+    });
   },
 
 });

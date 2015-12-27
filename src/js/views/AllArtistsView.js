@@ -4,7 +4,6 @@ var {
   Text,
   View,
   TouchableHighlight,
-  RecyclerViewBackedScrollView,
   ListView,
 } = React;
 var DB = require('../data/DB');
@@ -14,6 +13,7 @@ var Routes = require('../constants/Routes');
 var database = DB.getMusicDB();
 
 var AllArtistsView = React.createClass({
+
   render: function () {
     return (
       <View style={styles.wrapper}>
@@ -21,9 +21,6 @@ var AllArtistsView = React.createClass({
           automaticallyAdjustContentInsets={false}
           dataSource={this.state.dataSource}
           renderRow={this._renderArtist}
-          renderScrollComponent={
-            props => <RecyclerViewBackedScrollView {...props} />
-          }
         />
       </View>
     );
@@ -34,8 +31,7 @@ var AllArtistsView = React.createClass({
       {rowHasChanged: (r1, r2) => r1.name !== r2.name }
     );
     return { 
-      dataSource,
-      manualQuery: '',
+      dataSource: dataSource,
     };
   },
 
@@ -84,6 +80,7 @@ var AllArtistsView = React.createClass({
       ),
     );
   }
+
 });
 
 var styles = StyleSheet.create({
