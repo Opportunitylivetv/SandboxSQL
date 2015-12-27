@@ -54,15 +54,6 @@ var QueryView = React.createClass({
           value={this.state.queryText}
           onChangeText={(queryText) => this.setState({queryText})}
         />
-        <Text>
-          Execute:
-          {this.state.queryText}
-          ?
-        </Text>
-        <Text>
-          Actual query:
-          {this.state.query}
-        </Text>
         <TouchableHighlight
           style={styles.execute}
           underlayColor="#005F6B"

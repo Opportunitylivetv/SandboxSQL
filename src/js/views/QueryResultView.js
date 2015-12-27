@@ -21,11 +21,16 @@ var QueryResultView = React.createClass({
   },
 
   getInitialState: function() {
+    var dataSource = new ListView.DataSource(
+      {rowHasChanged: (r1, r2) => r1.name !== r2.name }
+    );
+
     return {
       isLoading: true,
       error: null,
       rows: [],
       firstRow: null,
+      dataSource,
     };
   },
 
@@ -59,7 +64,7 @@ var QueryResultView = React.createClass({
 
     return (
       <View style={styles.wrapper}>
-        {this.renderFirstRow()}
+        {this.renderColumnHeader()}
         <ListView
           automaticallyAdjustContentInsets={false}
           dataSource={this.state.dataSource}
@@ -69,7 +74,7 @@ var QueryResultView = React.createClass({
     );
   },
 
-  renderFirstRow: function() {
+  renderColumnHeader: function() {
     var values = [];
     Object.keys(this.state.firstRow).forEach(function(key) {
       values.push(
@@ -85,13 +90,6 @@ var QueryResultView = React.createClass({
         {values}
       </View>
     );
-  },
-
-  getInitialState: function() {
-    var dataSource = new ListView.DataSource(
-      {rowHasChanged: (r1, r2) => r1.name !== r2.name }
-    );
-    return { dataSource };
   },
 
   _renderCol: function(col) {
