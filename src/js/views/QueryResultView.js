@@ -10,7 +10,7 @@ var {
   TextInput,
 } = React;
 
-var rethrowOr = require('../utils/rethrowOr');
+var shallowCompare = require('../utils/shallowCompare');
 
 var QueryResultView = React.createClass({
 
@@ -22,7 +22,7 @@ var QueryResultView = React.createClass({
 
   getInitialState: function() {
     var dataSource = new ListView.DataSource(
-      {rowHasChanged: (r1, r2) => r1.name !== r2.name }
+      {rowHasChanged: (r1, r2) => shallowCompare(r1, r2)},
     );
 
     return {

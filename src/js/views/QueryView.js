@@ -10,6 +10,7 @@ var DB = require('../data/DB');
 var DBInfo = require('../data/DBInfo');
 var Routes = require('../constants/Routes');
 var QueryResultView = require('../views/QueryResultView');
+var QueryKeyboard = require('../views/QueryKeyboard');
 
 var database = DB.getMusicDB();
 
@@ -17,29 +18,9 @@ var QueryView = React.createClass({
 
   getInitialState: function() {
     return {
-      isLoading: false,
       query: null,
       queryText: `SELECT * FROM Artist WHERE Name LIKE '%Aaron%'`,
-      tables: null,
-      tableInfo: null,
     };
-  },
-
-  componentDidMount: function() {
-    DBInfo.getTables(database, (tables) => {
-      this.setState(
-        {tables},
-        () => this._getCols(),
-      );
-    });
-  },
-
-  _getCols: function() {
-    this.state.tables.forEach(function(tableName) {
-      DBInfo.getColumnsForTable(database, tableName, () => {
-        console.log('done getting cols for ', tableName);
-      });
-    });
   },
 
   render: function() {
@@ -53,6 +34,9 @@ var QueryView = React.createClass({
           multiline={true}
           value={this.state.queryText}
           onChangeText={(queryText) => this.setState({queryText})}
+        />
+        <QueryKeyboard 
+          database={database}
         />
         <TouchableHighlight
           style={styles.execute}
@@ -87,7 +71,6 @@ var QueryView = React.createClass({
   },
 
   executeQuery: function() {
-    console.log('executing', this.state.queryText);
     this.setState({
       query: this.state.queryText,
     });
