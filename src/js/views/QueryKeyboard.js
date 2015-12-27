@@ -6,11 +6,13 @@ var {
   View,
   ListView,
   TouchableHighlight,
+  TouchableOpacity,
   PropTypes,
   TextInput,
   ScrollView,
 } = React;
 
+var Colors = require('../constants/Colors');
 var DBInfo = require('../data/DBInfo');
 
 var QueryKeyboard = React.createClass({
@@ -95,11 +97,7 @@ var QueryKeyboard = React.createClass({
         />
       );
     } else {
-      content = cols.map(col =>
-        <Text key={`${tableName}_${col.name}`}>
-          {col.name}
-        </Text>
-      );
+      content = this.renderColumnsForTable(tableName, cols);
     }
 
     return (
@@ -109,14 +107,44 @@ var QueryKeyboard = React.createClass({
             {tableName}
           </Text>
         </View>
-        {content}
+        <View style={styles.columnsContainer}>
+          {content}
+        </View>
       </View>
+    );
+  },
+
+  renderColumnsForTable: function(tableName, cols) {
+    return (
+      <ScrollView horizontal={true}>
+        {cols.map(col =>
+          <TouchableOpacity 
+            activeOpacity={0.7}
+            key={`${tableName}_${col.name}`}>
+            <View style={styles.columnContainer}>
+              <Text>
+                {col.name}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      </ScrollView>
     );
   },
 
 });
 
 var styles = StyleSheet.create({
+  columnsContainer: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  columnContainer: {
+    padding: 4,
+    backgroundColor: Colors.AQUA,
+    borderRadius: 4,
+    margin: 4,
+  },
   tableHeader: {
     alignItems: 'center',
   },
