@@ -24,7 +24,7 @@ var Routes = require('./src/js/constants/Routes.js');
 var NAV_BAR_HEIGHT = 44;
 var SPACER_HEIGHT = 24;
 
-var INITIAL_ROUTE = Routes.ALL_ARTISTS;
+var INITIAL_ROUTE = Routes.QUERY;
 
 var _navBarRouteMapper = {
 
@@ -88,7 +88,6 @@ var SQLiteExample = React.createClass({
   },
  
   renderSceneImpl: function(route, navigator) {
-    console.log('the all aritsts view', AllArtistsView);
     switch (route.id) {
       case Routes.ALL_ARTISTS:
         return <AllArtistsView navigator={navigator} />;
