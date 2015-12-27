@@ -7,6 +7,7 @@ var {
   TextInput,
 } = React;
 var DB = require('../data/DB');
+var DBInfo = require('../data/DBInfo');
 var Routes = require('../constants/Routes');
 
 var database = DB.getMusicDB();
@@ -19,7 +20,26 @@ var QueryView = React.createClass({
       error: null,
       query: `SELECT * FROM Artist WHERE Name LIKE '%Aaron%'`,
       rows: [],
+      tables: null,
+      tableInfo: null,
     };
+  },
+
+  componentDidMount: function() {
+    DBInfo.getTables(database, (tables) => {
+      this.setState(
+        {tables},
+        () => this._getCols(),
+      );
+    });
+  },
+
+  _getCols: function() {
+    this.state.tables.forEach(function(tableName) {
+      DBInfo.getColumnsForTable(database, tableName, () => {
+        console.log('done getting cols for ', tableName);
+      });
+    });
   },
 
   render: function() {
@@ -47,6 +67,9 @@ var QueryView = React.createClass({
             Query bro!
           </Text>
         </TouchableHighlight>
+        <Text>
+          {!this.state.tables ? 'Loading Tables...' : this.state.tables.join(',')}
+        </Text>
         <Text>
           Num Rows:
           {this.state.rows.length}
