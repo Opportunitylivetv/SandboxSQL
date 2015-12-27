@@ -8,6 +8,7 @@ var {
   TouchableHighlight,
   PropTypes,
   TextInput,
+  ScrollView,
 } = React;
 
 var DBInfo = require('../data/DBInfo');
@@ -45,7 +46,6 @@ var QueryKeyboard = React.createClass({
         this.props.database, 
         tableName,
         (cols) => {
-          console.log(tableName, cols);
           var tableInfo = this.state.tableInfo;
           tableInfo[tableName] = cols;
           this.setState({
@@ -64,16 +64,52 @@ var QueryKeyboard = React.createClass({
   },
 
   render: function() {
+    if (this.state.isLoadingTables) {
+      return (
+        <View style={[styles.wrapper, styles.loading]}>
+          <ActivityIndicatorIOS
+            size="large" 
+            color="grey"
+          />
+        </View>
+      );
+    }
+
     return (
-      <View>
-        <Text>
-          is loading tables:
-          {this.state.isLoadingTables ? 'true' : 'false'}
+      <ScrollView style={styles.wrapper}>
+        {this.state.tables.map(
+          tableName => this.renderTable(tableName),
+        )}
+      </ScrollView>
+    );
+  },
+
+  renderTable: function(tableName) {
+    var cols = this.state.tableInfo[tableName];
+    var content = null;
+    if (!cols) {
+      content = (
+        <ActivityIndicatorIOS
+          size="small"
+          color="grey"
+        />
+      );
+    } else {
+      content = cols.map(col =>
+        <Text key={`${tableName}_${col.name}`}>
+          {col.name}
         </Text>
-        <Text>
-          is loading cols:
-          {this.state.isLoadingCols ? 'true' : 'false'}
-        </Text>
+      );
+    }
+
+    return (
+      <View key={tableName}>
+        <View style={styles.tableHeader}>
+          <Text style={styles.tableName}>
+            {tableName}
+          </Text>
+        </View>
+        {content}
       </View>
     );
   },
@@ -81,6 +117,18 @@ var QueryKeyboard = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  tableHeader: {
+    alignItems: 'center',
+  },
+  tableName: {
+    color: '#0066cc',
+  },
+  wrapper: {
+    flex: 1,
+  },
+  loading: {
+    padding: 10,
+  },
 });
 
 module.exports = QueryKeyboard;
