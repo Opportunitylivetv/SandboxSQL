@@ -5,6 +5,9 @@ SQLiteExample.xcodeproj/xcuserdata
 SQLiteExample.xcodeproj/project.xcworkspace
 npm-debug.log
 
+# my stuff
+_notes
+
 # compiled
 ./iOS/main.jsbundle
 iOS/main.jsbundle
