@@ -14,6 +14,7 @@ var {
 
 var Colors = require('../constants/Colors');
 var DBInfo = require('../data/DBInfo');
+var PartialQuery = require('../query/PartialQuery');
 
 var QueryKeyboard = React.createClass({
 
@@ -23,6 +24,7 @@ var QueryKeyboard = React.createClass({
 
   getInitialState: function() {
     return {
+      partialQuery: new PartialQuery(),
       isLoadingTables: true,
       isLoadingCols: true,
       tables: null,
