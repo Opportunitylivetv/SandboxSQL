@@ -14,6 +14,8 @@ module.exports = keyMirror({
   // Column names. Probably will need to add
   // a concept for column aliases in a bit...
   COLUMN: null,
+  // Table names (similar)
+  TABLE: null,
   // MIN(), MAX(), COUNT(), etc
   FUNCTION: null,
 });

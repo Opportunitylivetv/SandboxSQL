@@ -12,9 +12,11 @@ var {
   ScrollView,
 } = React;
 
-var Colors = require('../constants/Colors');
 var DBInfo = require('../data/DBInfo');
+var Colors = require('../constants/Colors');
 var PartialQuery = require('../query/PartialQuery');
+var ColumnToken = require('../tokens/ColumnToken');
+var TableToken = require('../tokens/TableToken');
 
 var QueryKeyboard = React.createClass({
 
@@ -81,6 +83,9 @@ var QueryKeyboard = React.createClass({
 
     return (
       <ScrollView style={styles.wrapper}>
+        <Text>
+          {this.state.partialQuery.exportToStringQuery()}
+        </Text>
         {this.state.tables.map(
           tableName => this.renderTable(tableName),
         )}
@@ -105,9 +110,13 @@ var QueryKeyboard = React.createClass({
     return (
       <View key={tableName}>
         <View style={styles.tableHeader}>
-          <Text style={styles.tableName}>
-            {tableName}
-          </Text>
+          <TouchableOpacity 
+            activeOpacity={0.7}
+            onPress={() => this._onTablePressed(tableName)}>
+            <Text style={styles.tableName}>
+              {tableName}
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.columnsContainer}>
           {content}
@@ -117,21 +126,32 @@ var QueryKeyboard = React.createClass({
   },
 
   renderColumnsForTable: function(tableName, cols) {
-    return (
-      <ScrollView horizontal={true}>
-        {cols.map(col =>
-          <TouchableOpacity 
-            activeOpacity={0.7}
-            key={`${tableName}_${col.name}`}>
-            <View style={styles.columnContainer}>
-              <Text>
-                {col.name}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      </ScrollView>
+    return cols.map(col =>
+      <TouchableOpacity 
+        activeOpacity={0.7}
+        onPress={() => this._onColPressed(tableName, col)}
+        key={`${tableName}_${col.name}`}>
+        <View style={styles.columnContainer}>
+          <Text>
+            {col.name}
+          </Text>
+        </View>
+      </TouchableOpacity>
     );
+  },
+
+  _onTablePressed: function(tableName) {
+    this.state.partialQuery.addToken(
+      new TableToken(tableName),
+    );
+    this.forceUpdate();
+  },
+
+  _onColPressed: function(tableName, colInfo) {
+    this.state.partialQuery.addToken(
+      new ColumnToken(tableName, colInfo),
+    );
+    this.forceUpdate();
   },
 
 });
