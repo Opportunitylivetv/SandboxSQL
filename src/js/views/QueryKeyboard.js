@@ -14,11 +14,19 @@ var {
 
 var DBInfo = require('../data/DBInfo');
 var Colors = require('../constants/Colors');
+var KeywordKeyboardView = require('../views/KeywordKeyboardView');
 var PartialQuery = require('../query/PartialQuery');
 var ColumnToken = require('../tokens/ColumnToken');
 var TableToken = require('../tokens/TableToken');
 
 var QueryKeyboard = React.createClass({
+
+  /**
+   * @public methods
+   */
+  getQueryString: function() {
+    return this.state.partialQuery.exportToStringQuery();
+  },
 
   propTypes: {
     database: PropTypes.object.isRequired,
@@ -86,6 +94,9 @@ var QueryKeyboard = React.createClass({
         <Text>
           {this.state.partialQuery.exportToStringQuery()}
         </Text>
+        <KeywordKeyboardView
+          onSelected={this._addToken}
+        />
         {this.state.tables.map(
           tableName => this.renderTable(tableName),
         )}
@@ -140,18 +151,21 @@ var QueryKeyboard = React.createClass({
     );
   },
 
-  _onTablePressed: function(tableName) {
-    this.state.partialQuery.addToken(
-      new TableToken(tableName),
-    );
+  _addToken: function(token) {
+    this.state.partialQuery.addToken(token);
     this.forceUpdate();
   },
 
+  _onTablePressed: function(tableName) {
+    this._addToken(
+      new TableToken(tableName),
+    );
+  },
+
   _onColPressed: function(tableName, colInfo) {
-    this.state.partialQuery.addToken(
+    this._addToken(
       new ColumnToken(tableName, colInfo),
     );
-    this.forceUpdate();
   },
 
 });

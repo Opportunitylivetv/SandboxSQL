@@ -19,7 +19,6 @@ var QueryView = React.createClass({
   getInitialState: function() {
     return {
       query: null,
-      queryText: `SELECT * FROM Artist WHERE Name LIKE '%Aaron%'`,
     };
   },
 
@@ -29,15 +28,6 @@ var QueryView = React.createClass({
         <Text>
           Enter a query:
         </Text>
-        <TextInput
-          style={styles.textInput}
-          multiline={true}
-          value={this.state.queryText}
-          onChangeText={(queryText) => this.setState({queryText})}
-        />
-        <QueryKeyboard 
-          database={database}
-        />
         <TouchableHighlight
           style={styles.execute}
           underlayColor="#005F6B"
@@ -46,6 +36,10 @@ var QueryView = React.createClass({
             Query dude!
           </Text>
         </TouchableHighlight>
+        <QueryKeyboard 
+          ref="queryKeyboard"
+          database={database}
+        />
         {!this.state.query ? null :
           <QueryResultView
             key={this.state.query}
@@ -72,7 +66,7 @@ var QueryView = React.createClass({
 
   executeQuery: function() {
     this.setState({
-      query: this.state.queryText,
+      query: this.refs.queryKeyboard.getQueryString(),
     });
   },
 
