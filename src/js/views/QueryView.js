@@ -10,6 +10,7 @@ var DB = require('../data/DB');
 var DBInfo = require('../data/DBInfo');
 var Routes = require('../constants/Routes');
 var QueryResultView = require('../views/QueryResultView');
+var Colors = require('../constants/Colors');
 var QueryKeyboard = require('../views/QueryKeyboard');
 
 var database = DB.getMusicDB();
@@ -32,7 +33,7 @@ var QueryView = React.createClass({
           style={styles.execute}
           underlayColor="#005F6B"
           onPress={this.executeQuery}>
-          <Text>
+          <Text style={styles.executeText}>
             Query dude!
           </Text>
         </TouchableHighlight>
@@ -79,10 +80,16 @@ var styles = StyleSheet.create({
     borderWidth: 1,
   },
   execute: {
-    backgroundColor: '#D1E7F9',
+    backgroundColor: Colors.SHADE3,
+    borderColor: Colors.HIGHLIGHT,
+    borderWidth: 1,
+    padding: 4,
+  },
+  executeText: {
+    color: Colors.TEXT_HIGHLIGHT,
   },
   wrapper: {
-    backgroundColor: '#F8F9E7',
+    backgroundColor: Colors.BASE_GRAY,
     flex: 1,
   },
 });

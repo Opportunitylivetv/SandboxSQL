@@ -53,7 +53,7 @@ var KeywordKeyboardView = React.createClass({
 
 var styles = StyleSheet.create({
   keywordName: {
-    color: '#0066cc',
+    color: Colors.TEXT_BASE,
   },
 });
 

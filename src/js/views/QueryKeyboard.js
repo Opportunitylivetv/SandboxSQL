@@ -92,7 +92,7 @@ var QueryKeyboard = React.createClass({
 
     return (
       <ScrollView style={styles.wrapper}>
-        <Text>
+        <Text style={styles.queryText}>
           {this.state.partialQuery.exportToStringQuery()}
         </Text>
         <KeywordKeyboardView
@@ -149,9 +149,11 @@ var QueryKeyboard = React.createClass({
           <TouchableOpacity 
             activeOpacity={0.7}
             onPress={() => this._onTablePressed(tableName)}>
-            <Text style={styles.tableName}>
-              {tableName}
-            </Text>
+            <View style={styles.tableWrapper}>
+              <Text style={styles.tableName}>
+                {tableName}
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
         <View style={styles.columnsContainer}>
@@ -168,7 +170,7 @@ var QueryKeyboard = React.createClass({
         onPress={() => this._onColPressed(tableName, col)}
         key={`${tableName}_${col.name}`}>
         <View style={styles.columnContainer}>
-          <Text>
+          <Text style={styles.columnText}>
             {col.name}
           </Text>
         </View>
@@ -232,21 +234,35 @@ var QueryKeyboard = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  queryText: {
+    color: Colors.TEXT_BASE,
+  },
   columnsContainer: {
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
+  columnText: {
+    color: Colors.TEXT_BASE,
+  },
   columnContainer: {
     padding: 4,
-    backgroundColor: Colors.AQUA,
+    backgroundColor: Colors.SHADE2,
     borderRadius: 4,
+    margin: 4,
+  },
+  tableWrapper: {
+    backgroundColor: Colors.SHADE1,
+    borderColor: Colors.SHADE2,
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 4,
     margin: 4,
   },
   tableHeader: {
     alignItems: 'center',
   },
   tableName: {
-    color: '#0066cc',
+    color: Colors.TEXT_BASE,
   },
   wrapper: {
     flex: 1,

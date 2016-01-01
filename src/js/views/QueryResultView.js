@@ -10,6 +10,7 @@ var {
   TextInput,
 } = React;
 
+var Colors = require('../constants/Colors');
 var shallowCompare = require('../utils/shallowCompare');
 
 var QueryResultView = React.createClass({
@@ -79,7 +80,7 @@ var QueryResultView = React.createClass({
     Object.keys(this.state.firstRow).forEach(function(key) {
       values.push(
         <View style={styles.columnHeader} key={key}>
-          <Text>
+          <Text style={styles.columnHeaderText}>
             {key}
           </Text>
         </View>
@@ -97,7 +98,7 @@ var QueryResultView = React.createClass({
     Object.keys(col).forEach(function(key) {
       values.push(
         <View style={styles.column} key={key}>
-          <Text>
+          <Text style={styles.columnText}>
             {col[key]}
           </Text>
         </View>
@@ -138,19 +139,25 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
   },
+  columnText: {
+    color: Colors.TEXT_BASE,
+  },
+  columnHeaderText: {
+    color: Colors.TEXT_HIGHLIGHT,
+  },
   columnHeaderContainer: {
     flexDirection: 'row',
   },
   columnHeader: {
     padding: 5,
-    backgroundColor: '#0066cc',
-    borderColor: 'grey',
+    backgroundColor: Colors.SHADE3,
+    borderColor: Colors.HIGHLIGHT,
     borderWidth: 1,
     flex: 1,
   },
   column: {
     padding: 5,
-    borderColor: 'grey',
+    borderColor: Colors.SHADE1,
     borderWidth: 1,
     flex: 1,
   },
