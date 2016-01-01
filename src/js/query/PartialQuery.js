@@ -11,6 +11,24 @@ class PartialQuery {
     this.tokens.push(token);
   }
 
+  getNumTokens() {
+    return this.tokens.length;
+  }
+
+  addTokenAtIndex(index, token) {
+    var before = this.tokens.slice(0, index);
+    var after = this.tokens.slice(index);
+    before.push(token);
+    this.tokens = before.concat(after);
+  }
+
+  deleteTokenAtIndex(index) {
+    var before = this.tokens.slice(0, index + 1);
+    var after = this.tokens.slice(index + 1);
+    before.pop();
+    this.tokens = before.concat(after);
+  }
+
   exportToStringQuery() {
     var exports = [];
     for (var i = 0; i < this.tokens.length; i++) {

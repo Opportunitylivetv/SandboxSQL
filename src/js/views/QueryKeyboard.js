@@ -35,6 +35,7 @@ var QueryKeyboard = React.createClass({
   getInitialState: function() {
     return {
       partialQuery: new PartialQuery(),
+      insertIndex: 0,
       isLoadingTables: true,
       isLoadingCols: true,
       tables: null,
@@ -97,6 +98,30 @@ var QueryKeyboard = React.createClass({
         <KeywordKeyboardView
           onSelected={this._addToken}
         />
+        <Text>
+          {this.state.insertIndex}
+        </Text>
+        <TouchableOpacity 
+          activeOpacity={0.7}
+          onPress={this._onLeftPressed}>
+          <Text>
+            {'<-'}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={this._onRightPressed}>
+          <Text>
+            {'->'}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          activeOpacity={0.7}
+          onPress={this._onDeletePressed}>
+          <Text>
+            {'X'}
+          </Text>
+        </TouchableOpacity>
         {this.state.tables.map(
           tableName => this.renderTable(tableName),
         )}
@@ -151,9 +176,45 @@ var QueryKeyboard = React.createClass({
     );
   },
 
+  _onDeletePressed: function() {
+    if (this.state.partialQuery.getNumTokens() <= 0) {
+      return;
+    }
+
+    this.state.partialQuery.deleteTokenAtIndex(
+      // If we are all the way at the beginning,
+      // just delete the token to the right.
+      Math.max(
+        this.state.insertIndex - 1,
+        0,
+      ),
+    );
+    this._onLeftPressed();
+  },
+
+  _onLeftPressed: function() {
+    this.setState({
+      insertIndex: Math.max(0, this.state.insertIndex -1),
+    });
+  },
+
+  _onRightPressed: function() {
+    this.setState({
+      insertIndex: Math.min(
+        this.state.partialQuery.getNumTokens(),
+        this.state.insertIndex + 1,
+      ),
+    });
+  },
+
   _addToken: function(token) {
-    this.state.partialQuery.addToken(token);
-    this.forceUpdate();
+    this.state.partialQuery.addTokenAtIndex(
+      this.state.insertIndex,
+      token,
+    );
+    this.setState({
+      insertIndex: this.state.insertIndex + 1,
+    });
   },
 
   _onTablePressed: function(tableName) {
