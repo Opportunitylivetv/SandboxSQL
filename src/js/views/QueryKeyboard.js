@@ -11,6 +11,7 @@ var {
   TextInput,
   ScrollView,
 } = React;
+var Swiper = require('react-native-swiper')
 
 var DBInfo = require('../data/DBInfo');
 var Colors = require('../constants/Colors');
@@ -121,9 +122,11 @@ var QueryKeyboard = React.createClass({
             {'X'}
           </Text>
         </TouchableOpacity>
-        {this.state.tables.map(
-          tableName => this.renderTable(tableName),
-        )}
+        <Swiper activeDot={this._getActiveDot()} height={200}>
+          {this.state.tables.map(
+            tableName => this.renderTable(tableName),
+          )}
+        </Swiper>
       </ScrollView>
     );
   },
@@ -143,21 +146,23 @@ var QueryKeyboard = React.createClass({
     }
 
     return (
-      <View key={tableName}>
-        <View style={styles.tableHeader}>
-          <TouchableOpacity 
-            activeOpacity={0.7}
-            onPress={() => this._onTablePressed(tableName)}>
-            <View style={styles.tableWrapper}>
-              <Text style={styles.tableName}>
-                {tableName}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.columnsContainer}>
-          {content}
-        </View>
+      <View style={styles.tableWrapper} key={tableName}>
+        <ScrollView style={styles.tableScroll} height={150}>
+          <View style={styles.tableHeader}>
+            <TouchableOpacity 
+              activeOpacity={0.7}
+              onPress={() => this._onTablePressed(tableName)}>
+              <View style={styles.tableNameWrapper}>
+                <Text style={styles.tableName}>
+                  {tableName}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.columnsContainer}>
+            {content}
+          </View>
+        </ScrollView>
       </View>
     );
   },
@@ -174,6 +179,22 @@ var QueryKeyboard = React.createClass({
           </Text>
         </View>
       </TouchableOpacity>
+    );
+  },
+
+  _getActiveDot: function() {
+    return (
+      <View style={{
+          backgroundColor: Colors.SHADE2,
+          width: 8, 
+          height: 8, 
+          borderRadius: 4, 
+          marginLeft: 3, 
+          marginRight: 3, 
+          marginTop: 3, 
+          marginBottom: 3,
+        }} 
+      />
     );
   },
 
@@ -233,6 +254,10 @@ var styles = StyleSheet.create({
     margin: 4,
   },
   tableWrapper: {
+    marginHorizontal: 28,
+    marginBottom: 10,
+  },
+  tableNameWrapper: {
     backgroundColor: Colors.SHADE1,
     borderColor: Colors.SHADE2,
     borderWidth: 1,

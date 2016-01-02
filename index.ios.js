@@ -19,7 +19,8 @@ var {
 var QueryView = require('./src/js/views/QueryView');
 var AlbumsView = require('./src/js/views/AlbumsView');
 var AllArtistsView = require('./src/js/views/AllArtistsView');
-var Routes = require('./src/js/constants/Routes.js');
+var Routes = require('./src/js/constants/Routes');
+var Colors = require('./src/js/constants/Colors');
 
 var NAV_BAR_HEIGHT = 44;
 var SPACER_HEIGHT = 24;
@@ -130,7 +131,7 @@ var styles = StyleSheet.create({
     flex: 1,
   },
   navBarContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.SHADE2,
   },
 });
 
