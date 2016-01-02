@@ -14,6 +14,7 @@
     "react-native-swiper": "1.4.3",
     "object-assign": "4.0.1",
     "events": "1.1.0",
+    "flex": "2.1.1",
     "react-native-sqlite": "0.0.10"
   }
 }
