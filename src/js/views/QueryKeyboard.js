@@ -35,7 +35,6 @@ var QueryKeyboard = React.createClass({
   getInitialState: function() {
     return {
       partialQuery: new PartialQuery(),
-      insertIndex: 0,
       isLoadingTables: true,
       isLoadingCols: true,
       tables: null,
@@ -99,7 +98,7 @@ var QueryKeyboard = React.createClass({
           onSelected={this._addToken}
         />
         <Text>
-          {this.state.insertIndex}
+          {this.state.partialQuery.getInsertIndex()}
         </Text>
         <TouchableOpacity 
           activeOpacity={0.7}
@@ -183,40 +182,23 @@ var QueryKeyboard = React.createClass({
       return;
     }
 
-    this.state.partialQuery.deleteTokenAtIndex(
-      // If we are all the way at the beginning,
-      // just delete the token to the right.
-      Math.max(
-        this.state.insertIndex - 1,
-        0,
-      ),
-    );
-    this._onLeftPressed();
+    this.state.partialQuery.deleteToken();
+    this.forceUpdate();
   },
 
   _onLeftPressed: function() {
-    this.setState({
-      insertIndex: Math.max(0, this.state.insertIndex -1),
-    });
+    this.state.partialQuery.decrementInsertIndex();
+    this.forceUpdate();
   },
 
   _onRightPressed: function() {
-    this.setState({
-      insertIndex: Math.min(
-        this.state.partialQuery.getNumTokens(),
-        this.state.insertIndex + 1,
-      ),
-    });
+    this.state.partialQuery.incrementInsertIndex();
+    this.forceUpdate();
   },
 
   _addToken: function(token) {
-    this.state.partialQuery.addTokenAtIndex(
-      this.state.insertIndex,
-      token,
-    );
-    this.setState({
-      insertIndex: this.state.insertIndex + 1,
-    });
+    this.state.partialQuery.addToken(token);
+    this.forceUpdate();
   },
 
   _onTablePressed: function(tableName) {

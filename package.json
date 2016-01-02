@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "react-native": "0.17.0",
+    "react-native-swiper": "1.4.3",
     "react-native-sqlite": "0.0.10"
   }
 }
