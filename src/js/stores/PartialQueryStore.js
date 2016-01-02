@@ -27,7 +27,7 @@ _resetState();
 var _incrementInsertIndex = function() {
   _insertIndex = Math.min(
     _tokens.length,
-    _insertIndex + 1,
+    _insertIndex + 1
   );
 };
 
@@ -89,7 +89,7 @@ AppConstants.StoreSubscribePrototype,
         // just delete the token to the right.
         var index = Math.max(
           0,
-          _insertIndex - 1,
+          _insertIndex - 1
         );
         var before = _tokens.slice(0, index + 1);
         var after = _tokens.slice(index + 1);

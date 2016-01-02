@@ -9,6 +9,9 @@
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
   },
+  "devDependencies": {
+    "babel-register": "6.3.13"
+  },
   "dependencies": {
     "react-native": "0.17.0",
     "react-native-swiper": "1.4.3",
