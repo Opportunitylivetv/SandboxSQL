@@ -19,6 +19,7 @@ var KeywordKeyboardView = require('../views/KeywordKeyboardView');
 var PartialQuery = require('../query/PartialQuery');
 var ColumnToken = require('../tokens/ColumnToken');
 var TableToken = require('../tokens/TableToken');
+var PartialQueryStore = require('../stores/PartialQueryStore');
 
 var QueryKeyboard = React.createClass({
 
@@ -122,7 +123,7 @@ var QueryKeyboard = React.createClass({
             {'X'}
           </Text>
         </TouchableOpacity>
-        <Swiper activeDot={this._getActiveDot()} height={200}>
+        <Swiper key="const" activeDot={this._getActiveDot()} height={200}>
           {this.state.tables.map(
             tableName => this.renderTable(tableName),
           )}
@@ -256,7 +257,7 @@ var styles = StyleSheet.create({
   tableWrapper: {
     marginHorizontal: 28,
     marginBottom: 10,
-  },
+  }
   tableNameWrapper: {
     backgroundColor: Colors.SHADE1,
     borderColor: Colors.SHADE2,

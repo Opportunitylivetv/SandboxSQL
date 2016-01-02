@@ -18,7 +18,7 @@ module.exports = {
 
   ActionTypes: keyMirror({
     ADD_TOKEN: null,
-    REMOVE_TOKEN: null,
+    DELETE_TOKEN: null,
     DECREMENT_INSERT_INDEX: null,
     INCREMENT_INSERT_INDEX: null,
   }),
