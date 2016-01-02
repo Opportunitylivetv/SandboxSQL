@@ -12,6 +12,8 @@
   "dependencies": {
     "react-native": "0.17.0",
     "react-native-swiper": "1.4.3",
+    "object-assign": "4.0.1",
+    "events": "1.1.0",
     "react-native-sqlite": "0.0.10"
   }
 }
