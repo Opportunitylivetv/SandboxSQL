@@ -257,7 +257,7 @@ var styles = StyleSheet.create({
   tableWrapper: {
     marginHorizontal: 28,
     marginBottom: 10,
-  }
+  },
   tableNameWrapper: {
     backgroundColor: Colors.SHADE1,
     borderColor: Colors.SHADE2,

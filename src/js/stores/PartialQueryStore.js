@@ -110,7 +110,7 @@ AppConstants.StoreSubscribePrototype,
     }
 
     if (shouldInform) {
-      this.emit(AppConstants.CHANGE_EVENT);
+      PartialQueryStore.emit(AppConstants.CHANGE_EVENT);
     }
   }),
 });

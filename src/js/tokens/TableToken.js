@@ -1,9 +1,11 @@
+"use strict";
+
 var TokenTypes = require('../constants/TokenTypes');
 
 class TableToken {
 
   constructor(
-    tableName,
+    tableName
   ) {
     this.tableName = tableName;
   }

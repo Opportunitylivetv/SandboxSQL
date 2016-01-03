@@ -1,9 +1,11 @@
+"use strict";
+
 var TokenTypes = require('../constants/TokenTypes');
 
 class KeywordToken {
 
   constructor(
-    name,
+    name
   ) {
     this.name = name;
   }

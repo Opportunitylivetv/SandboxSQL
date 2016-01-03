@@ -5,31 +5,29 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 var ActionTypes = AppConstants.ActionTypes;
 class PartialQueryActions {
-  addToken(token) {
+  static addToken(token) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.ADD_TOKEN,
       token: token,
     });
   }
 
-  deleteToken(token) {
+  static deleteToken(token) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.DELETE_TOKEN,
       token: token,
     });
   }
 
-  incrementInsertIndex() {
+  static incrementInsertIndex() {
     AppDispatcher.handleViewAction({
       type: ActionTypes.INCREMENT_INSERT_INDEX,
-      token: token,
     });
   }
 
-  decrementInsertIndex() {
+  static decrementInsertIndex() {
     AppDispatcher.handleViewAction({
       type: ActionTypes.DECREMENT_INSERT_INDEX,
-      token: token,
     });
   }
   

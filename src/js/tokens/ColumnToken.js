@@ -1,10 +1,12 @@
+"use strict";
+
 var TokenTypes = require('../constants/TokenTypes');
 
 class ColumnToken {
 
   constructor(
    tableName,
-    colInfo,
+   colInfo
   ) {
     this.tableName = tableName;
     this.colInfo = colInfo;
