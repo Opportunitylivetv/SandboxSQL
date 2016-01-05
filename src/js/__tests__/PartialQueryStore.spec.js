@@ -10,6 +10,12 @@ function _addToken(token) {
   PartialQueryActions.addToken(token);
 }
 
+function _addTokens() {
+  for (var i = 0; i < arguments.length; i++) {
+    PartialQueryActions.addToken(arguments[i]);
+  }
+}
+
 function _colToken(name) {
   return new ColumnToken('foo_table', {name: name || 'bar'});
 }
@@ -48,19 +54,11 @@ describe('partial query store', () => {
   });
 
   describe('can add and remove tokens', () => {
-    PartialQueryActions.addToken(
-      _keywordToken('SELECT')
-    );
-    PartialQueryActions.addToken(
-      _colToken('*')
-    );
-    PartialQueryActions.addToken(
-      _colToken('name')
-    );
-    PartialQueryActions.addToken(
-      _keywordToken('FROM')
-    );
-    PartialQueryActions.addToken(
+    _addTokens(
+      _keywordToken('SELECT'),
+      _colToken('*'),
+      _colToken('name'),
+      _keywordToken('FROM'),
       _tableToken('foo_table')
     );
     assert.equal(
