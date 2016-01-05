@@ -30,6 +30,12 @@ class PartialQueryActions {
       type: ActionTypes.DECREMENT_INSERT_INDEX,
     });
   }
+
+  static clearTokens() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.CLEAR_TOKENS,
+    });
+  }
   
 }
 

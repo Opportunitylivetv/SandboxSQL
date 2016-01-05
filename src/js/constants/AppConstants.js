@@ -21,6 +21,7 @@ module.exports = {
     DELETE_TOKEN: null,
     DECREMENT_INSERT_INDEX: null,
     INCREMENT_INSERT_INDEX: null,
+    CLEAR_TOKENS: null,
   }),
 
   PayloadSources: keyMirror({

@@ -107,6 +107,11 @@ AppConstants.StoreSubscribePrototype,
         shouldInform = true;
         _decrementInsertIndex();
         break;
+
+      case ActionTypes.CLEAR_TOKENS:
+        shouldInform = true;
+        _resetState();
+        break;
     }
 
     if (shouldInform) {

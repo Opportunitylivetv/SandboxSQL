@@ -11,7 +11,15 @@ function _addToken(token) {
 }
 
 function _colToken(name) {
-  return new ColumnToken(name || 'Foo', {});
+  return new ColumnToken('foo_table', {name: name || 'bar'});
+}
+
+function _keywordToken(name) {
+  return new KeywordToken(name);
+}
+
+function _tableToken(name) {
+  return new TableToken(name);
 }
 
 describe('partial query store', () => {
@@ -35,7 +43,31 @@ describe('partial query store', () => {
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
       PartialQueryActions.decrementInsertIndex();
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
+      PartialQueryActions.clearTokens();
     });
-  })
+  });
+
+  describe('can add and remove tokens', () => {
+    PartialQueryActions.addToken(
+      _keywordToken('SELECT')
+    );
+    PartialQueryActions.addToken(
+      _colToken('*')
+    );
+    PartialQueryActions.addToken(
+      _colToken('name')
+    );
+    PartialQueryActions.addToken(
+      _keywordToken('FROM')
+    );
+    PartialQueryActions.addToken(
+      _tableToken('foo_table')
+    );
+    assert.equal(
+      PartialQueryStore.exportToStringQuery(),
+      'SELECT *, name FROM foo_table'
+    );
+    PartialQueryActions.clearTokens();
+  });
 
 });
