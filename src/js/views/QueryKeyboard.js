@@ -20,6 +20,7 @@ var ColumnToken = require('../tokens/ColumnToken');
 var TableToken = require('../tokens/TableToken');
 var PartialQueryStore = require('../stores/PartialQueryStore');
 var PartialQueryActions = require('../actions/PartialQueryActions');
+var StoreSubscribeMixin = require('../utils/StoreSubscribeMixin');
 
 var QueryKeyboard = React.createClass({
 
@@ -28,6 +29,15 @@ var QueryKeyboard = React.createClass({
    */
   getQueryString: function() {
     return PartialQueryStore.exportToStringQuery();
+  },
+
+  mixins: [StoreSubscribeMixin([
+    PartialQueryStore,
+  ])],
+
+  storeChanged: function() {
+    // TODO -- move into components haha
+    this.forceUpdate();
   },
 
   propTypes: {
@@ -204,22 +214,18 @@ var QueryKeyboard = React.createClass({
     }
 
     PartialQueryActions.deleteToken();
-    this.forceUpdate();
   },
 
   _onLeftPressed: function() {
     PartialQueryActions.decrementInsertIndex();
-    this.forceUpdate();
   },
 
   _onRightPressed: function() {
     PartialQueryActions.incrementInsertIndex();
-    this.forceUpdate();
   },
 
   _addToken: function(token) {
     PartialQueryActions.addToken(token);
-    this.forceUpdate();
   },
 
   _onTablePressed: function(tableName) {

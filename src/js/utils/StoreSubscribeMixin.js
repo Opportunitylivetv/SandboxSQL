@@ -19,6 +19,10 @@ var StoreSubscribeMixin = (stores) => {
 
     _handleStoresChanged() {
       if (this.isMounted()) {
+        if (!this.storeChanged) {
+          throw new Error('need to implement ' +
+            'storeChanged for this mixin');
+        }
 				this.storeChanged();
       }
     }
