@@ -19,6 +19,7 @@ var KeywordToken = require('../tokens/KeywordToken');
 const KEYWORDS = [
   'SELECT',
   'FROM',
+  'GROUP BY',
 ];
 
 var KeywordKeyboardView = React.createClass({
