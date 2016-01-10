@@ -5,6 +5,7 @@ var PartialQueryStore = require('../stores/PartialQueryStore');
 var ColumnToken = require('../tokens/ColumnToken');
 var KeywordToken = require('../tokens/KeywordToken');
 var TableToken = require('../tokens/TableToken');
+var ColumnAliasToken = require('../tokens/ColumnAliasToken');
 
 function _addToken(token) {
   PartialQueryActions.addToken(token);
@@ -14,6 +15,14 @@ function _addTokens() {
   for (var i = 0; i < arguments.length; i++) {
     PartialQueryActions.addToken(arguments[i]);
   }
+}
+
+function _colAliasToken(colName, aliasName) {
+  return new ColumnAliasToken(
+    'foo_table',
+    {name: colName}, 
+    aliasName
+  );
 }
 
 function _colToken(name) {
@@ -66,6 +75,23 @@ describe('partial query store', () => {
       'SELECT *, name FROM foo_table'
     );
     PartialQueryActions.clearTokens();
+  });
+
+  describe('handles formatting aliases correctly', () => {
+    _addTokens(
+      _keywordToken('SELECT'),
+      _colToken('name'),
+      _colAliasToken('bar', 'baz'),
+      _colToken('foo'),
+      _keywordToken('FROM'),
+      _tableToken('foo_table')
+    );
+    assert.equal(
+      PartialQueryStore.exportToStringQuery(),
+      'SELECT name, bar as baz, foo FROM foo_table'
+    );
+    PartialQueryActions.clearTokens();
+
   });
 
 });
