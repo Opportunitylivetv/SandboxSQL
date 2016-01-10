@@ -171,6 +171,23 @@ describe('partial query store', () => {
       );
     });
 
+    it('does some basic ordering by', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _colToken('name'),
+        _keywordToken('FROM'),
+        _tableToken('foo_table'),
+        _keywordToken('ORDER BY'),
+        _colToken('name'),
+        _colToken('baz')
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT name FROM foo_table ORDER BY name, baz'
+      );
+    });
+
+
   });
 
 });

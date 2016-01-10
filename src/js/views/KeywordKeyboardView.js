@@ -20,6 +20,7 @@ const KEYWORDS = [
   'SELECT',
   'FROM',
   'GROUP BY',
+  'ORDER BY',
 ];
 
 var KeywordKeyboardView = React.createClass({
