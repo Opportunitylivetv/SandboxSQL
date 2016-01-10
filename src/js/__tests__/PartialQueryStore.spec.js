@@ -187,6 +187,25 @@ describe('partial query store', () => {
       );
     });
 
+    it('can even order by for asc desc', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _colToken('name'),
+        _keywordToken('FROM'),
+        _tableToken('foo_table'),
+        _keywordToken('ORDER BY'),
+        _colToken('name'),
+        _keywordToken('DESC'),
+        _colToken('baz'),
+        _keywordToken('ASC'),
+        _colToken('foo')
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT name FROM foo_table ' +
+          'ORDER BY name DESC, baz ASC, foo'
+      );
+    });
 
   });
 

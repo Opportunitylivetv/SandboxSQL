@@ -19,6 +19,14 @@ class KeywordToken {
   }
 
   exportToQuery(prev, next) {
+    switch (this.name) {
+      case 'DESC':
+      case 'ASC':
+        if (next && next.isColumnLike && next.isColumnLike()) {
+          return this.name + ',';
+        }
+        break;
+    }
     return this.name;
   }
 }

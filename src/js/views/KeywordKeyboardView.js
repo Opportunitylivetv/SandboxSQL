@@ -21,6 +21,8 @@ const KEYWORDS = [
   'FROM',
   'GROUP BY',
   'ORDER BY',
+  'ASC',
+  'DESC',
 ];
 
 var KeywordKeyboardView = React.createClass({
