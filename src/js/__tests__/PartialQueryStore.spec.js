@@ -5,7 +5,7 @@ var PartialQueryStore = require('../stores/PartialQueryStore');
 var ColumnToken = require('../tokens/ColumnToken');
 var KeywordToken = require('../tokens/KeywordToken');
 var TableToken = require('../tokens/TableToken');
-var ColumnAliasToken = require('../tokens/ColumnAliasToken');
+var AliasToken = require('../tokens/AliasToken');
 
 function _addToken(token) {
   PartialQueryActions.addToken(token);
@@ -17,16 +17,15 @@ function _addTokens() {
   }
 }
 
-function _colAliasToken(colName, aliasName) {
-  return new ColumnAliasToken(
-    'foo_table',
-    {name: colName}, 
-    aliasName
-  );
-}
-
 function _colToken(name) {
   return new ColumnToken('foo_table', {name: name || 'bar'});
+}
+
+function _colAliasToken(colName, aliasName) {
+  return new AliasToken(
+    _colToken(colName),
+    aliasName
+  );
 }
 
 function _keywordToken(name) {
@@ -35,6 +34,9 @@ function _keywordToken(name) {
 
 function _tableToken(name) {
   return new TableToken(name);
+}
+
+function _functionToken(name) {
 }
 
 describe('partial query store', () => {

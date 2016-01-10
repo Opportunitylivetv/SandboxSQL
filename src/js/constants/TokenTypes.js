@@ -6,18 +6,24 @@ var keyMirror = require('../utils/keyMirror');
  * ...
  */
 
-module.exports = keyMirror({
+var TokenTypes = keyMirror({
   // Stuff like SELECT, FROM, JOIN, etc
   KEYWORD: null,
-  // +, -, etc
-  OPERATOR: null,
   // Column names. Probably will need to add
   // a concept for column aliases in a bit...
   COLUMN: null,
-  // Column aliases, aka SELECT foo as bar,
-  COLUMN_ALIAS: null,
+  // General aliases, like COUNT(1) as total, etc
+  ALIAS: null,
   // Table names (similar)
   TABLE: null,
-  // MIN(), MAX(), COUNT(), etc
+  // MIN(), MAX(), COUNT()
   FUNCTION: null,
 });
+
+TokenTypes.FUNCTION_TYPES = keyMirror({
+  MIN: null,
+  MAX: null,
+  COUNT: null,
+});
+
+module.exports = TokenTypes;
