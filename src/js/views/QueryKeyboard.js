@@ -16,10 +16,10 @@ var Swiper = require('react-native-swiper')
 var DBInfo = require('../data/DBInfo');
 var Colors = require('../constants/Colors');
 var KeywordKeyboardView = require('../views/KeywordKeyboardView');
-var PartialQuery = require('../query/PartialQuery');
 var ColumnToken = require('../tokens/ColumnToken');
 var TableToken = require('../tokens/TableToken');
 var PartialQueryStore = require('../stores/PartialQueryStore');
+var PartialQueryActions = require('../actions/PartialQueryActions');
 
 var QueryKeyboard = React.createClass({
 
@@ -27,7 +27,7 @@ var QueryKeyboard = React.createClass({
    * @public methods
    */
   getQueryString: function() {
-    return this.state.partialQuery.exportToStringQuery();
+    return PartialQueryStore.exportToStringQuery();
   },
 
   propTypes: {
@@ -36,7 +36,6 @@ var QueryKeyboard = React.createClass({
 
   getInitialState: function() {
     return {
-      partialQuery: new PartialQuery(),
       isLoadingTables: true,
       isLoadingCols: true,
       tables: null,
@@ -94,13 +93,13 @@ var QueryKeyboard = React.createClass({
     return (
       <ScrollView style={styles.wrapper}>
         <Text style={styles.queryText}>
-          {this.state.partialQuery.exportToStringQuery()}
+          {PartialQueryStore.exportToStringQuery()}
         </Text>
         <KeywordKeyboardView
           onSelected={this._addToken}
         />
         <Text>
-          {this.state.partialQuery.getInsertIndex()}
+          {PartialQueryStore.getInsertIndex()}
         </Text>
         <TouchableOpacity 
           activeOpacity={0.7}
@@ -200,26 +199,26 @@ var QueryKeyboard = React.createClass({
   },
 
   _onDeletePressed: function() {
-    if (this.state.partialQuery.getNumTokens() <= 0) {
+    if (PartialQueryStore.getNumTokens() <= 0) {
       return;
     }
 
-    this.state.partialQuery.deleteToken();
+    PartialQueryActions.deleteToken();
     this.forceUpdate();
   },
 
   _onLeftPressed: function() {
-    this.state.partialQuery.decrementInsertIndex();
+    PartialQueryActions.decrementInsertIndex();
     this.forceUpdate();
   },
 
   _onRightPressed: function() {
-    this.state.partialQuery.incrementInsertIndex();
+    PartialQueryActions.incrementInsertIndex();
     this.forceUpdate();
   },
 
   _addToken: function(token) {
-    this.state.partialQuery.addToken(token);
+    PartialQueryActions.addToken(token);
     this.forceUpdate();
   },
 
