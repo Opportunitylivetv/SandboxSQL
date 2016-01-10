@@ -1,3 +1,7 @@
+"use strict";
+
+var TokenTypes = require('../constants/TokenTypes');
+var FUNCTION_TYPES = TokenTypes.FUNCTION_TYPES;
 
 class FunctionToken {
 
@@ -43,3 +47,5 @@ class FunctionToken {
   }
   
 }
+
+module.exports = FunctionToken;
