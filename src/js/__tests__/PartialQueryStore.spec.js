@@ -56,6 +56,10 @@ function _functionToken(functionType, params) {
 
 describe('partial query store', () => {
 
+  beforeEach(() => {
+    PartialQueryActions.clearTokens();
+  })
+
   describe('insertIndex', () => {
     it('can increment and decrement', function() {
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
@@ -75,85 +79,82 @@ describe('partial query store', () => {
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
       PartialQueryActions.decrementInsertIndex();
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
-      PartialQueryActions.clearTokens();
     });
   });
 
-  describe('can add and remove tokens', () => {
-    _addTokens(
-      _keywordToken('SELECT'),
-      _colToken('*'),
-      _colToken('name'),
-      _keywordToken('FROM'),
-      _tableToken('foo_table')
-    );
-    assert.equal(
-      PartialQueryStore.exportToStringQuery(),
-      'SELECT *, name FROM foo_table'
-    );
-    PartialQueryActions.clearTokens();
-  });
+  describe('token formatting ', () => {
+    it('can format with commas', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _colToken('*'),
+        _colToken('name'),
+        _keywordToken('FROM'),
+        _tableToken('foo_table')
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT *, name FROM foo_table'
+      );
+    });
 
-  describe('handles formatting aliases correctly', () => {
-    _addTokens(
-      _keywordToken('SELECT'),
-      _colToken('name'),
-      _colAliasToken('bar', 'baz'),
-      _colToken('foo'),
-      _keywordToken('FROM'),
-      _tableToken('foo_table')
-    );
-    assert.equal(
-      PartialQueryStore.exportToStringQuery(),
-      'SELECT name, bar as baz, foo FROM foo_table'
-    );
-    PartialQueryActions.clearTokens();
-  });
+    it('handles formatting aliases correctly', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _colToken('name'),
+        _colAliasToken('bar', 'baz'),
+        _colToken('foo'),
+        _keywordToken('FROM'),
+        _tableToken('foo_table')
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT name, bar as baz, foo FROM foo_table'
+      );
+      PartialQueryActions.clearTokens();
+    });
 
-  describe('handles functions also', () => {
-    _addTokens(
-      _keywordToken('SELECT'),
-      _colToken('name'),
-      _colAliasToken('bar', 'baz'),
-      _functionToken(
-        FUNCTION_TYPES.COUNT,
-        {countName: '1'}
-      ),
-      _keywordToken('FROM'),
-      _tableToken('foo_table')
-    );
-    assert.equal(
-      PartialQueryStore.exportToStringQuery(),
-      'SELECT name, bar as baz, COUNT(1) FROM foo_table'
-    );
-    PartialQueryActions.clearTokens();
-  });
-
-  describe('can handle counts as aliases ', () => {
-    _addTokens(
-      _keywordToken('SELECT'),
-      _colToken('name'),
-      _colAliasToken('bar', 'baz'),
-      _aliasToken(
+    it('handles functions also', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _colToken('name'),
+        _colAliasToken('bar', 'baz'),
         _functionToken(
           FUNCTION_TYPES.COUNT,
           {countName: '1'}
         ),
-        'total'
-      ),
-      _colAliasToken('bat', 'banana'),
-      _keywordToken('FROM'),
-      _tableToken('foo_table')
-    );
-    assert.equal(
-      PartialQueryStore.exportToStringQuery(),
-      'SELECT ' +
-        'name, bar as baz, COUNT(1) as total, bat as banana ' +
-        'FROM foo_table'
-    );
-    PartialQueryActions.clearTokens();
+        _keywordToken('FROM'),
+        _tableToken('foo_table')
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT name, bar as baz, COUNT(1) FROM foo_table'
+      );
+    });
+
+    it('can handle counts as aliases ', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _colToken('name'),
+        _colAliasToken('bar', 'baz'),
+        _aliasToken(
+          _functionToken(
+            FUNCTION_TYPES.COUNT,
+            {countName: '1'}
+          ),
+          'total'
+        ),
+        _colAliasToken('bat', 'banana'),
+        _keywordToken('FROM'),
+        _tableToken('foo_table')
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT ' +
+          'name, bar as baz, COUNT(1) as total, bat as banana ' +
+          'FROM foo_table'
+      );
+    });
+
   });
-
-
 
 });
