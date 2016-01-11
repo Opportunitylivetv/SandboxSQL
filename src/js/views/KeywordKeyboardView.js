@@ -23,6 +23,8 @@ const KEYWORDS = [
   'ORDER BY',
   'ASC',
   'DESC',
+  'DISTINCT',
+  'WHERE',
 ];
 
 var KeywordKeyboardView = React.createClass({

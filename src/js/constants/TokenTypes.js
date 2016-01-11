@@ -18,6 +18,11 @@ var TokenTypes = keyMirror({
   TABLE: null,
   // MIN(), MAX(), COUNT()
   FUNCTION: null,
+  // =, >=, <= -- can be a keyword?
+  // BETWEEN, LIKE, IN etc
+  OPERATOR: null,
+  // 100 or 123 or whatever (=123)
+  VALUE: null,
 });
 
 TokenTypes.FUNCTION_TYPES = keyMirror({
