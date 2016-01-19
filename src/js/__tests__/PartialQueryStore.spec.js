@@ -187,6 +187,27 @@ describe('partial query store', () => {
       );
     });
 
+    it('can count columns too', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _functionToken(
+          FUNCTION_TYPES.COUNT,
+          {countName: 'bar'}
+        ),
+        _functionToken(
+          FUNCTION_TYPES.COUNT,
+          {countName: 'baz'}
+        ),
+        _keywordToken('FROM'),
+        _tableToken('foo_table'),
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT COUNT(bar), COUNT(baz) FROM foo_table'
+      );
+
+    });
+
     it('can even order by for asc desc', () => {
       _addTokens(
         _keywordToken('SELECT'),
