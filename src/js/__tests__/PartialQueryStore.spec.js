@@ -199,7 +199,7 @@ describe('partial query store', () => {
           {countName: 'baz'}
         ),
         _keywordToken('FROM'),
-        _tableToken('foo_table'),
+        _tableToken('foo_table')
       );
       assert.equal(
         PartialQueryStore.exportToStringQuery(),
