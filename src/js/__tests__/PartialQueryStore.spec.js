@@ -139,7 +139,7 @@ describe('partial query store', () => {
         _aliasToken(
           _functionToken(
             FUNCTION_TYPES.COUNT,
-            {countName: '1'}
+            {countName: '*'}
           ),
           'total'
         ),
@@ -150,7 +150,7 @@ describe('partial query store', () => {
       assert.equal(
         PartialQueryStore.exportToStringQuery(),
         'SELECT ' +
-          'name, bar as baz, COUNT(1) as total, bat as banana ' +
+          'name, bar as baz, COUNT(*) as total, bat as banana ' +
           'FROM foo_table'
       );
     });
