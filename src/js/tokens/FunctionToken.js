@@ -36,7 +36,10 @@ class FunctionToken {
         result = 'MAX(' + this.params.colNames.join(',') + ')';
         break;
       case FUNCTION_TYPES.COUNT:
-        result = 'COUNT(' + this.params.countName + ')';
+        result = 'COUNT(' + 
+          (this.params.isDistinct ?  'DISTINCT ' : '') +
+          this.params.countName + 
+          ')';
         break;
     }
 

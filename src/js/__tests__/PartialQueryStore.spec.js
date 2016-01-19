@@ -196,14 +196,14 @@ describe('partial query store', () => {
         ),
         _functionToken(
           FUNCTION_TYPES.COUNT,
-          {countName: 'baz'}
+          {countName: 'baz', isDistinct: true}
         ),
         _keywordToken('FROM'),
         _tableToken('foo_table')
       );
       assert.equal(
         PartialQueryStore.exportToStringQuery(),
-        'SELECT COUNT(bar), COUNT(baz) FROM foo_table'
+        'SELECT COUNT(bar), COUNT(DISTINCT baz) FROM foo_table'
       );
 
     });
