@@ -3,9 +3,10 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+const React = require('react-native');
+const {
   AppRegistry,
+  Dimensions,
   StyleSheet,
   Text,
   View,
@@ -16,18 +17,21 @@ var {
   TextInput,
   ListView,
 } = React;
-var QueryView = require('./src/js/views/QueryView');
-var AlbumsView = require('./src/js/views/AlbumsView');
-var AllArtistsView = require('./src/js/views/AllArtistsView');
-var Routes = require('./src/js/constants/Routes');
-var Colors = require('./src/js/constants/Colors');
+const SideMenu = require('react-native-side-menu');
+const deviceScreen = Dimensions.get('window');
 
-var NAV_BAR_HEIGHT = 44;
-var SPACER_HEIGHT = 24;
+const QueryView = require('./src/js/views/QueryView');
+const AlbumsView = require('./src/js/views/AlbumsView');
+const AllArtistsView = require('./src/js/views/AllArtistsView');
+const Routes = require('./src/js/constants/Routes');
+const Colors = require('./src/js/constants/Colors');
 
-var INITIAL_ROUTE = Routes.QUERY;
+const NAV_BAR_HEIGHT = 44;
+const SPACER_HEIGHT = 24;
 
-var _navBarRouteMapper = {
+const INITIAL_ROUTE = Routes.QUERY;
+
+const _navBarRouteMapper = {
 
   Title: function(route, navigator) {
     var content = this.getTitleForRoute(route, navigator);
@@ -70,12 +74,47 @@ var _navBarRouteMapper = {
   },
 };
 
-var SQLiteExample = React.createClass({
+class MenuView extends React.Component {
+  render() {
+    return (
+      <View style={styles.sideMenuContainer}>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.instructions}>
+          To get started, edit index.ios.js
+        </Text>
+        <Text style={styles.instructions}>
+          Press Cmd+R to reload,{'\n'}
+          Cmd+Control+Z for dev menu
+        </Text>
+      </View>
+    );
+  }
+}
+
+var SQLSandbox = React.createClass({
 
   renderScene: function(route, navigator) {
+    var menu = <MenuView />;
     return (
-      <View style={styles.viewContainer}>
-        {this.renderSceneImpl(route, navigator)}
+      <View style={styles.metaContainer}>
+        <SideMenu 
+          menu={menu} 
+          openMenuOffset={deviceScreen.width * 1 / 3}>
+          <View style={styles.viewContainer}>
+            {this.renderSceneImpl(route, navigator)}
+          </View>
+        </SideMenu>
       </View>
     );
   },
@@ -130,9 +169,16 @@ var styles = StyleSheet.create({
     marginTop: 44 + 20,
     flex: 1,
   },
+  metaContainer: {
+    backgroundColor: '#333',
+    flex: 1,
+  },
+  sideMenuContainer: {
+    // TODO -- not needed
+  },
   navBarContainer: {
     backgroundColor: Colors.SHADE2,
   },
 });
 
-AppRegistry.registerComponent('SQLiteExample', () => SQLiteExample);
+AppRegistry.registerComponent('SQLSandbox', () => SQLSandbox);
