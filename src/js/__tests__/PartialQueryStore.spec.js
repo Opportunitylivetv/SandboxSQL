@@ -228,6 +228,38 @@ describe('partial query store', () => {
       );
     });
 
+    it('can export specific table col selections', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _tableToken('foo_table'),
+        _colToken('name'),
+        _keywordToken('FROM'),
+        _tableToken('foo_table')
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT foo_table.name FROM foo_table'
+      );
+    });
+
+    it('can format table col aliases', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _tableToken('foo_table'),
+        _colAliasToken('bar', 'baz'),
+        _colToken('name'),
+        _colToken('foo'),
+        _keywordToken('FROM'),
+        _tableToken('foo_table')
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT foo_table.bar as baz, name, foo FROM foo_table'
+      );
+      PartialQueryActions.clearTokens();
+    });
+
+
   });
 
 });

@@ -18,7 +18,20 @@ class TableToken {
     return `Table "${this.tableName}"`;
   }
 
+  shouldExportSpace(prev, next) {
+    if (next && next.isColumnLike && next.isColumnLike()) {
+      // Actually want to output something like
+      // table.foo
+      return false;
+    }
+    return true;
+  }
+
   exportToQuery(prev, next) {
+    if (next && next.isColumnLike && next.isColumnLike()) {
+      // We are referencing a specific column probably
+      return this.tableName + '.';
+    }
     return this.tableName;
   }
 }

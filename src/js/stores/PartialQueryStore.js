@@ -60,8 +60,16 @@ AppConstants.StoreSubscribePrototype,
       var curr = _tokens[i];
       var next = _tokens[i+1];
       exports.push(curr.exportToQuery(prev, next));
+      if (i === _tokens.length - 1) {
+        // We only add spaces if we are not the last token.
+        continue;
+      }
+      // Ugh more duck typing...
+      if (!curr.shouldExportSpace || curr.shouldExportSpace(prev, next)) {
+        exports.push(' ');
+      }
     }
-    return exports.join(' ');
+    return exports.join('');
   },
 
   dispatchToken: AppDispatcher.register((payload) => {
