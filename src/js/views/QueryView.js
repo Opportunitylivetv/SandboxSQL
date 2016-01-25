@@ -9,6 +9,7 @@ var {
 var DB = require('../data/DB');
 var DBInfo = require('../data/DBInfo');
 var Routes = require('../constants/Routes');
+var PartialQueryStore = require('../stores/PartialQueryStore');
 var QueryResultView = require('../views/QueryResultView');
 var Colors = require('../constants/Colors');
 var QueryKeyboard = require('../views/QueryKeyboard');
@@ -48,26 +49,13 @@ var QueryView = React.createClass({
             query={this.state.query}
           />
         }
-        <TouchableHighlight
-          underlayColor="#005F6B"
-          onPress={this.navToArtists}>
-          <Text>
-            All Artists
-          </Text>
-        </TouchableHighlight>
       </View>
-    );
-  },
-
-  navToArtists: function() {
-    this.props.navigator.push(
-      Routes.getRouteForID(Routes.ALL_ARTISTS),
     );
   },
 
   executeQuery: function() {
     this.setState({
-      query: this.refs.queryKeyboard.getQueryString(),
+      query: PartialQueryStore.exportToStringQuery(),
     });
   },
 

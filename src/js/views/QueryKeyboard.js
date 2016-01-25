@@ -24,13 +24,6 @@ var StoreSubscribeMixin = require('../utils/StoreSubscribeMixin');
 
 var QueryKeyboard = React.createClass({
 
-  /**
-   * @public methods
-   */
-  getQueryString: function() {
-    return PartialQueryStore.exportToStringQuery();
-  },
-
   mixins: [StoreSubscribeMixin([
     PartialQueryStore,
   ])],
@@ -100,14 +93,21 @@ var QueryKeyboard = React.createClass({
       );
     }
 
+    var swiperViews = this.state.tables.map(
+      tableName => this.renderTable(tableName),
+    );
+    swiperViews.unshift(
+      <KeywordKeyboardView
+        key="keyboard"
+        onSelected={this._addToken}
+      />
+    );
+
     return (
       <ScrollView style={styles.wrapper}>
         <Text style={styles.queryText}>
           {PartialQueryStore.exportToStringQuery()}
         </Text>
-        <KeywordKeyboardView
-          onSelected={this._addToken}
-        />
         <Text>
           {PartialQueryStore.getInsertIndex()}
         </Text>
@@ -133,9 +133,7 @@ var QueryKeyboard = React.createClass({
           </Text>
         </TouchableOpacity>
         <Swiper key="const" activeDot={this._getActiveDot()} height={200}>
-          {this.state.tables.map(
-            tableName => this.renderTable(tableName),
-          )}
+          {swiperViews}
         </Swiper>
       </ScrollView>
     );
@@ -252,6 +250,7 @@ var styles = StyleSheet.create({
   },
   columnText: {
     color: Colors.TEXT_BASE,
+    fontSize: 16,
   },
   columnContainer: {
     padding: 4,
@@ -276,6 +275,7 @@ var styles = StyleSheet.create({
   },
   tableName: {
     color: Colors.TEXT_BASE,
+    fontSize: 12,
   },
   wrapper: {
     flex: 1,

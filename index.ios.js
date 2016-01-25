@@ -77,7 +77,7 @@ const _navBarRouteMapper = {
 class MenuView extends React.Component {
   render() {
     return (
-      <View style={styles.sideMenuContainer}>
+      <View>
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
@@ -119,14 +119,6 @@ var SQLSandbox = React.createClass({
     );
   },
 
-  sceneNeedsSpacer: function(route) {
-    switch (route.id) {
-      case Routes.QUERY:
-        return true;
-    }
-    return false;
-  },
- 
   renderSceneImpl: function(route, navigator) {
     switch (route.id) {
       case Routes.ALL_ARTISTS:
@@ -172,9 +164,6 @@ var styles = StyleSheet.create({
   metaContainer: {
     backgroundColor: '#333',
     flex: 1,
-  },
-  sideMenuContainer: {
-    // TODO -- not needed
   },
   navBarContainer: {
     backgroundColor: Colors.SHADE2,
