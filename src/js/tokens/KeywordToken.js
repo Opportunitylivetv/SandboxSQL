@@ -21,12 +21,10 @@ class KeywordToken extends AbstractToken {
   }
 
   exportToQuery() {
-    var next = this.getNext();
-
     switch (this.name) {
       case 'DESC':
       case 'ASC':
-        if (next && next.isColumnLike && next.isColumnLike()) {
+        if (this._isBeforeColumn()) {
           return this.name + ',';
         }
         break;

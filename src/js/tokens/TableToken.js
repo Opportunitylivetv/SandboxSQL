@@ -31,24 +31,25 @@ class TableToken extends AbstractToken {
     return true;
   }
 
+  isTableLike() {
+    return !this._isBeforeColumn();
+  }
+
   isColumnLike() {
     // We are if we are concatted with a column
     return this._isBeforeColumn();
   }
 
   exportToQuery() {
-    var next = this.getNext();
-
     if (this._isBeforeColumn()) {
       // We are referencing a specific column probably
       return this.tableName + '.';
     }
+    if (this._isBeforeTable()) {
+      // selecting from multiple tables
+      return this.tableName + ',';
+    }
     return this.tableName;
-  }
-
-  _isBeforeColumn() {
-    var next = this.getNext();
-    return next && next.isColumnLike && next.isColumnLike();
   }
 
 }

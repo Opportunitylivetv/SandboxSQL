@@ -29,8 +29,6 @@ class FunctionToken extends AbstractToken {
   }
 
   exportToQuery() {
-    var next = this.getNext();
-
     var result = null;
     switch (this.functionType) {
       case FUNCTION_TYPES.MIN:
@@ -47,7 +45,7 @@ class FunctionToken extends AbstractToken {
         break;
     }
 
-    if (next && next.isColumnLike && next.isColumnLike()) {
+    if (this._isBeforeColumn()) {
       return result + ',';
     }
     return result;

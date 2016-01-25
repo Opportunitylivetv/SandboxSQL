@@ -31,6 +31,16 @@ class AbstractToken {
     return this.next;
   }
 
+  _isBeforeColumn() {
+    var next = this.getNext();
+    return next && next.isColumnLike && next.isColumnLike();
+  }
+
+  _isBeforeTable() {
+    var next = this.getNext();
+    return next && next.isTableLike && next.isTableLike();
+  }
+
 }
 
 module.exports = AbstractToken;

@@ -110,7 +110,6 @@ describe('partial query store', () => {
         PartialQueryStore.exportToStringQuery(),
         'SELECT name, bar as baz, foo FROM foo_table'
       );
-      PartialQueryActions.clearTokens();
     });
 
     it('handles functions also', () => {
@@ -256,7 +255,6 @@ describe('partial query store', () => {
         PartialQueryStore.exportToStringQuery(),
         'SELECT foo_table.bar as baz, name, foo FROM foo_table'
       );
-      PartialQueryActions.clearTokens();
     });
 
     it('can format table col aliases (multiple)', () => {
@@ -276,7 +274,21 @@ describe('partial query store', () => {
         'SELECT foo_table.bar as baz, foo_table.name, ' +
           'foo_table.foo FROM foo_table'
       );
-      PartialQueryActions.clearTokens();
+    });
+
+    it('can select from multiple tables woah', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _colToken('name'),
+        _colToken('foo'),
+        _keywordToken('FROM'),
+        _tableToken('foo_table'),
+        _tableToken('bar_table')
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT name, foo FROM foo_table, bar_table'
+      );
     });
 
   });

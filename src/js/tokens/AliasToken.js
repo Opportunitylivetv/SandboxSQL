@@ -33,7 +33,7 @@ class AliasToken extends AbstractToken {
 
     var subText = this.subToken.exportToQuery(null, null);
     var result = `${subText} as ${this.aliasName}`;
-    if (next && next.isColumnLike && next.isColumnLike()) {
+    if (this._isBeforeColumn()) {
       return result + ',';
     }
     return result;
