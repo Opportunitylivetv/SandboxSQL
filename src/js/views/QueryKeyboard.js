@@ -21,17 +21,9 @@ var TableToken = require('../tokens/TableToken');
 var PartialQueryStore = require('../stores/PartialQueryStore');
 var PartialQueryActions = require('../actions/PartialQueryActions');
 var StoreSubscribeMixin = require('../utils/StoreSubscribeMixin');
+var PartialQueryView = require('../views/PartialQueryView');
 
 var QueryKeyboard = React.createClass({
-
-  mixins: [StoreSubscribeMixin([
-    PartialQueryStore,
-  ])],
-
-  storeChanged: function() {
-    // TODO -- move into components haha
-    this.forceUpdate();
-  },
 
   propTypes: {
     database: PropTypes.object.isRequired,
@@ -105,9 +97,7 @@ var QueryKeyboard = React.createClass({
 
     return (
       <ScrollView style={styles.wrapper}>
-        <Text style={styles.queryText}>
-          {PartialQueryStore.exportToStringQuery()}
-        </Text>
+        <PartialQueryView />
         <Text>
           {PartialQueryStore.getInsertIndex()}
         </Text>
