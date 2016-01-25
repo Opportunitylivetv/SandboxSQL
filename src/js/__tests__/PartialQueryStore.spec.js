@@ -291,6 +291,25 @@ describe('partial query store', () => {
       );
     });
 
+    it('can select from multiple tables with aliases', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _tableToken('o'),
+        _colToken('name'),
+        _tableToken('o'),
+        _colToken('bar'),
+        _keywordToken('FROM'),
+        _aliasToken(
+          _tableToken('foo_table'),
+          'o'
+        )
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT o.name, o.bar FROM foo_table as o'
+      );
+    });
+
   });
 
 });
