@@ -24,16 +24,20 @@ class AliasToken extends AbstractToken {
   }
 
   isColumnLike() {
-    // maybe this will not always be true?
-    return true;
+    return this.subToken.isColumnLike();
+  }
+
+  isTableLike() {
+    return this.subToken.isTableLike();
   }
 
   exportToQuery() {
-    var next = this.getNext();
-
     var subText = this.subToken.exportToQuery(null, null);
     var result = `${subText} as ${this.aliasName}`;
     if (this._isBeforeColumn()) {
+      return result + ',';
+    }
+    if (this._isBeforeTable()) {
       return result + ',';
     }
     return result;

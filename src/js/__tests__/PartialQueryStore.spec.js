@@ -310,6 +310,30 @@ describe('partial query store', () => {
       );
     });
 
+    it('select from multiple tables with aliases and commas', () => {
+      _addTokens(
+        _keywordToken('SELECT'),
+        _tableToken('o'),
+        _colToken('name'),
+        _tableToken('b'),
+        _colToken('bar'),
+        _keywordToken('FROM'),
+        _aliasToken(
+          _tableToken('foo_table'),
+          'o'
+        ),
+        _tableToken('z_table'),
+        _aliasToken(
+          _tableToken('bar_table'),
+          'b'
+        )
+      );
+      assert.equal(
+        PartialQueryStore.exportToStringQuery(),
+        'SELECT o.name, b.bar FROM foo_table as o, z_table, bar_table as b'
+      );
+    });
+
   });
 
 });
