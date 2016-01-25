@@ -20,7 +20,9 @@ class KeywordToken extends AbstractToken {
     return `KEYWORD "${this.name}"`;
   }
 
-  exportToQuery(prev, next) {
+  exportToQuery() {
+    var next = this.getNext();
+
     switch (this.name) {
       case 'DESC':
       case 'ASC':

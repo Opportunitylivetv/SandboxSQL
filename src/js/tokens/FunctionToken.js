@@ -28,7 +28,9 @@ class FunctionToken extends AbstractToken {
     return true;
   }
 
-  exportToQuery(prev, next) {
+  exportToQuery() {
+    var next = this.getNext();
+
     var result = null;
     switch (this.functionType) {
       case FUNCTION_TYPES.MIN:

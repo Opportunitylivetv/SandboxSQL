@@ -259,13 +259,6 @@ describe('partial query store', () => {
       PartialQueryActions.clearTokens();
     });
 
-    /**
-     * TODO -- right now doesnt work since our isColumnLike()
-     * cant ask the token for its next column :(
-     *
-     * can we refactor so every column can check its
-     * left / right?
-     *
     it('can format table col aliases (multiple)', () => {
       _addTokens(
         _keywordToken('SELECT'),
@@ -285,7 +278,6 @@ describe('partial query store', () => {
       );
       PartialQueryActions.clearTokens();
     });
-      */
 
   });
 

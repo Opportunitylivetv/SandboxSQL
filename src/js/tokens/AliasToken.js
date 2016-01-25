@@ -28,7 +28,9 @@ class AliasToken extends AbstractToken {
     return true;
   }
 
-  exportToQuery(prev, next) {
+  exportToQuery() {
+    var next = this.getNext();
+
     var subText = this.subToken.exportToQuery(null, null);
     var result = `${subText} as ${this.aliasName}`;
     if (next && next.isColumnLike && next.isColumnLike()) {

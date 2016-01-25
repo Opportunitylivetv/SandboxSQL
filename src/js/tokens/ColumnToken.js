@@ -28,7 +28,8 @@ class ColumnToken extends AbstractToken {
     return true;
   }
 
-  exportToQuery(prev, next) {
+  exportToQuery() {
+    var next = this.getNext();
     if (next && next.isColumnLike && next.isColumnLike()) {
       return this.colInfo.name + ',';
     }
