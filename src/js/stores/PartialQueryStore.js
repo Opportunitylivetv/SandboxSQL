@@ -2,6 +2,7 @@
 
 var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
+var PartialQuery = require('../query/PartialQuery');
 var EventEmitter = require('events').EventEmitter;
 
 var ActionTypes = AppConstants.ActionTypes;
@@ -16,24 +17,11 @@ var assign = require('object-assign');
  * that might change in the future.
  */
 
-var _tokens;
-var _insertIndex;
+var _query = new PartialQuery();
 var _resetState = function() {
-  _tokens = [];
-  _insertIndex = 0;
+  _query.reset();
 };
 _resetState();
-
-var _incrementInsertIndex = function() {
-  _insertIndex = Math.min(
-    _tokens.length,
-    _insertIndex + 1
-  );
-};
-
-var _decrementInsertIndex = function() {
-  _insertIndex = Math.max(0, _insertIndex -1);
-};
 
 var PartialQueryStore = assign(
 {},
@@ -42,34 +30,19 @@ AppConstants.StoreSubscribePrototype,
 {
  
   getNumTokens() {
-    return _tokens.length;
+    return _query.getNumTokens();
   },
 
   getInsertIndex() {
-    return _insertIndex;
+    return _query.getInsertIndex();
   },
 
   getTokens() {
-    return _tokens.slice();
+    return _query.getTokens();
   },
 
   exportToStringQuery() {
-    var exports = [];
-    for (var i = 0; i < _tokens.length; i++) {
-      var prev = _tokens[i-1];
-      var curr = _tokens[i];
-      var next = _tokens[i+1];
-      exports.push(curr.exportToQuery(prev, next));
-      if (i === _tokens.length - 1) {
-        // We only add spaces if we are not the last token.
-        continue;
-      }
-      // Ugh more duck typing...
-      if (!curr.shouldExportSpace || curr.shouldExportSpace(prev, next)) {
-        exports.push(' ');
-      }
-    }
-    return exports.join('');
+    return _query.exportToStringQuery();
   },
 
   dispatchToken: AppDispatcher.register((payload) => {
@@ -79,41 +52,25 @@ AppConstants.StoreSubscribePrototype,
     switch (action.type) {
       case ActionTypes.ADD_TOKEN:
         shouldInform = true;
-        var token = action.token;
-        var before = _tokens.slice(0, _insertIndex);
-        var after = _tokens.slice(_insertIndex);
-        before.push(token);
-        _tokens = before.concat(after);
-        _incrementInsertIndex();
+        _query.addToken(action.token);
         break;
 
       case ActionTypes.DELETE_TOKEN:
-        if (!_tokens.length) {
+        if (!_query.getNumTokens()) {
           break;
         }
         shouldInform = true;
-
-        // If we are all the way at the beginning,
-        // just delete the token to the right.
-        var index = Math.max(
-          0,
-          _insertIndex - 1
-        );
-        var before = _tokens.slice(0, index + 1);
-        var after = _tokens.slice(index + 1);
-        before.pop();
-        _tokens = before.concat(after);
-        _decrementInsertIndex();
+        _query.deleteToken();
         break;
 
       case ActionTypes.INCREMENT_INSERT_INDEX:
         shouldInform = true;
-        _incrementInsertIndex();
+        _query.incrementInsertIndex();
         break;
 
       case ActionTypes.DECREMENT_INSERT_INDEX:
         shouldInform = true;
-        _decrementInsertIndex();
+        _query.decrementInsertIndex();
         break;
 
       case ActionTypes.CLEAR_TOKENS:

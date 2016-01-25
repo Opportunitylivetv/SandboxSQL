@@ -1,12 +1,14 @@
 "use strict";
 
+var AbstractToken = require('../tokens/AbstractToken');
 var TokenTypes = require('../constants/TokenTypes');
 
-class AliasToken {
+class AliasToken extends AbstractToken {
   constructor(
     subToken,
     aliasName
   ) {
+    super();
     this.subToken = subToken;
     this.aliasName = aliasName;
   }

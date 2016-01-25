@@ -1,14 +1,16 @@
 "use strict";
 
+var AbstractToken = require('../tokens/AbstractToken');
 var TokenTypes = require('../constants/TokenTypes');
 var FUNCTION_TYPES = TokenTypes.FUNCTION_TYPES;
 
-class FunctionToken {
+class FunctionToken extends AbstractToken {
 
   constructor(
     functionType,
     params
   ) {
+    super();
     this.functionType = functionType;
     this.params = params;
   }

@@ -1,12 +1,14 @@
 "use strict";
 
+var AbstractToken = require('../tokens/AbstractToken');
 var TokenTypes = require('../constants/TokenTypes');
 
-class TableToken {
+class TableToken extends AbstractToken {
 
   constructor(
     tableName
   ) {
+    super();
     this.tableName = tableName;
   }
 
