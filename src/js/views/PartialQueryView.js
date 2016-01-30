@@ -29,27 +29,71 @@ var PartialQueryView = React.createClass({
 
   render: function() {
     var tokens = PartialQueryStore.getTokens();
-    return <View></View>;
-    /*
-    return (
-      <View>
-        {tokens.map((token, tokenIndex) => 
-          <TouchableOpacity 
-            key={token.exportToQuery() + tokenIndex}
-            activeOpacity={0.7}
-            onPress={() => this._onSelected(keywordName)}>
+    var insertIndex = PartialQueryStore.getInsertIndex();
+
+    /* curr.shouldExportSpace || curr.shouldExportSpace())*/
+    var result = [];
+    for (var index = 0; index < tokens.length; index++) {
+      if (index === insertIndex) {
+        result.push(this.renderCursor());
+      }
+
+      var token = tokens[index];
+      result.push(
+        <TouchableOpacity 
+          key={token.exportToQuery() + index}
+          activeOpacity={0.7}
+          onPress={() => this._onSelected(index)}>
+          <View style={styles.token}>
             <Text style={styles.queryText}>
-              {token.exportToQuery()}
+              {token.exportToQuery() + ' '}
             </Text>
-          </TouchableOpacity>
-        )}
+          </View>
+        </TouchableOpacity>
+      );
+    }
+    if (index === insertIndex) {
+      result.push(this.renderCursor());
+    }
+
+    return (
+      <View style={styles.tokenWrapper}>
+        {result}
       </View>
-      );*/
+    );
+  },
+
+  renderCursor: function() {
+    return (
+      <View key="cursor" style={styles.cursor}>
+      </View>
+    );
+  },
+
+  onSelected: function(index) {
+    console.log('tapped', index);
   },
  
 });
 
 var styles = StyleSheet.create({
+  tokenWrapper: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  cursor: {
+    width: 2,
+    height: 20,
+    marginTop: 6,
+    marginBottom: 4,
+    backgroundColor: Colors.BLUE1,
+  },
+  token: {
+    padding: 4,
+    backgroundColor: Colors.SHADE2,
+    borderRadius: 4,
+    margin: 4,
+  },
   queryText: {
     color: Colors.TEXT_BASE,
   },

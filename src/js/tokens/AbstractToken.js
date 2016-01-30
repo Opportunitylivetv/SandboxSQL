@@ -7,12 +7,13 @@ class AbstractToken {
     this.prev = null;
     this.next = null;
     // hacky abstract check
+    /* uncomment when babel supports this
     if (new.target === 'AbstractToken') {
       throw new TypeError('cannot instantiate directly');
     }
     if (this.getType === undefined) {
       throw new TypeError('must implemented getType');
-    }
+    }*/
   }
 
   setPrevious(prev) {

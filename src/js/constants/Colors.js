@@ -10,6 +10,8 @@ module.exports = {
   SHADE2: '#9E0079',
   SHADE3: '#CC009C',
   HIGHLIGHT: '#FC65D9',
+
+  BLUE1: '#00DFFC',
   /* non palette colors */
   TEXT_BASE: '#eee',
   TEXT_HIGHLIGHT: '#fff',

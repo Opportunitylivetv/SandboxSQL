@@ -98,9 +98,6 @@ var QueryKeyboard = React.createClass({
     return (
       <ScrollView style={styles.wrapper}>
         <PartialQueryView />
-        <Text>
-          {PartialQueryStore.getInsertIndex()}
-        </Text>
         <TouchableOpacity 
           activeOpacity={0.7}
           onPress={this._onLeftPressed}>
