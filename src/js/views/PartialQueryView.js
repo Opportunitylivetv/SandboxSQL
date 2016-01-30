@@ -28,13 +28,23 @@ var PartialQueryView = React.createClass({
   },
 
   render: function() {
+    var tokens = PartialQueryStore.getTokens();
+    return <View></View>;
+    /*
     return (
       <View>
-        <Text style={styles.queryText}>
-          {PartialQueryStore.exportToStringQuery()}
-        </Text>
+        {tokens.map((token, tokenIndex) => 
+          <TouchableOpacity 
+            key={token.exportToQuery() + tokenIndex}
+            activeOpacity={0.7}
+            onPress={() => this._onSelected(keywordName)}>
+            <Text style={styles.queryText}>
+              {token.exportToQuery()}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
-    );
+      );*/
   },
  
 });
