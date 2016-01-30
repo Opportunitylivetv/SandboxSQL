@@ -21,6 +21,10 @@ function _addTokens() {
   }
 }
 
+function _setInsertIndex(newIndex) {
+  PartialQueryActions.setInsertIndex(newIndex);
+}
+
 function _colToken(name) {
   return new ColumnToken('foo_table', {name: name || 'bar'});
 }
@@ -61,7 +65,7 @@ describe('partial query store', () => {
   })
 
   describe('insertIndex', () => {
-    it('can increment and decrement', function() {
+    it('can increment and decrement', () => {
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
       PartialQueryActions.incrementInsertIndex();
       // since no tokens yet
@@ -78,6 +82,21 @@ describe('partial query store', () => {
       PartialQueryActions.decrementInsertIndex();
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
       PartialQueryActions.decrementInsertIndex();
+      assert.equal(PartialQueryStore.getInsertIndex(), 0);
+    });
+
+    it('can also be set directly', () => {
+      assert.equal(PartialQueryStore.getInsertIndex(), 0);
+      _addToken(_colToken());
+      _addToken(_colToken());
+      _addToken(_colToken());
+      _setInsertIndex(1);
+      assert.equal(PartialQueryStore.getInsertIndex(), 1);
+      _setInsertIndex(3);
+      assert.equal(PartialQueryStore.getInsertIndex(), 3);
+      _setInsertIndex(10);
+      assert.equal(PartialQueryStore.getInsertIndex(), 3);
+      _setInsertIndex(-1);
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
     });
   });

@@ -23,6 +23,13 @@ class PartialQuery {
     );
   }
 
+  setInsertIndex(newIndex) {
+    this._insertIndex = Math.min(
+      this._tokens.length,
+      Math.max(0, newIndex)
+    );
+  }
+
   decrementInsertIndex() {
     this._insertIndex = Math.max(0, this._insertIndex -1);
   }

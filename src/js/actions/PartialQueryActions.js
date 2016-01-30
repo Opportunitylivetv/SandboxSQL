@@ -19,6 +19,13 @@ class PartialQueryActions {
     });
   }
 
+  static setInsertIndex(newIndex) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.UPDATE_INSERT_INDEX,
+      newIndex: newIndex
+    });
+  }
+
   static incrementInsertIndex() {
     AppDispatcher.handleViewAction({
       type: ActionTypes.INCREMENT_INSERT_INDEX,

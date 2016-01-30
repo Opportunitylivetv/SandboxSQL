@@ -63,6 +63,11 @@ AppConstants.StoreSubscribePrototype,
         _query.deleteToken();
         break;
 
+      case ActionTypes.UPDATE_INSERT_INDEX:
+        shouldInform = true;
+        _query.setInsertIndex(action.newIndex);
+        break;
+
       case ActionTypes.INCREMENT_INSERT_INDEX:
         shouldInform = true;
         _query.incrementInsertIndex();

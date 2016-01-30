@@ -70,7 +70,7 @@ var PartialQueryView = React.createClass({
     );
   },
 
-  onSelected: function(index) {
+  _onSelected: function(index) {
     console.log('tapped', index);
   },
  
