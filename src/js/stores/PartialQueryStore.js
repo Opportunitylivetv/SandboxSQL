@@ -65,7 +65,7 @@ AppConstants.StoreSubscribePrototype,
 
       case ActionTypes.UPDATE_INSERT_INDEX:
         shouldInform = true;
-        _query.setInsertIndex(action.newIndex);
+        _query.updateInsertIndex(action.newIndex);
         break;
 
       case ActionTypes.INCREMENT_INSERT_INDEX:

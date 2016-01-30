@@ -19,7 +19,7 @@ class PartialQueryActions {
     });
   }
 
-  static setInsertIndex(newIndex) {
+  static updateInsertIndex(newIndex) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.UPDATE_INSERT_INDEX,
       newIndex: newIndex

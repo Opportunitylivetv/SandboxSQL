@@ -14,6 +14,7 @@ var {
 
 var Colors = require('../constants/Colors');
 var PartialQueryStore = require('../stores/PartialQueryStore');
+var PartialQueryActions = require('../actions/PartialQueryActions');
 var StoreSubscribeMixin = require('../utils/StoreSubscribeMixin');
 
 var PartialQueryView = React.createClass({
@@ -39,11 +40,15 @@ var PartialQueryView = React.createClass({
       }
 
       var token = tokens[index];
+      var onTap = (_i) => {
+        return () => this._onSelected(_i);
+      };
+
       result.push(
         <TouchableOpacity 
           key={token.exportToQuery() + index}
           activeOpacity={0.7}
-          onPress={() => this._onSelected(index)}>
+          onPress={onTap(index + 1)}>
           <View style={styles.token}>
             <Text style={styles.queryText}>
               {token.exportToQuery() + ' '}
@@ -71,7 +76,7 @@ var PartialQueryView = React.createClass({
   },
 
   _onSelected: function(index) {
-    console.log('tapped', index);
+    PartialQueryActions.updateInsertIndex(index);
   },
  
 });

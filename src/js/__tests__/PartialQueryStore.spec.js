@@ -21,8 +21,8 @@ function _addTokens() {
   }
 }
 
-function _setInsertIndex(newIndex) {
-  PartialQueryActions.setInsertIndex(newIndex);
+function _updateInsertIndex(newIndex) {
+  PartialQueryActions.updateInsertIndex(newIndex);
 }
 
 function _colToken(name) {
@@ -85,18 +85,18 @@ describe('partial query store', () => {
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
     });
 
-    it('can also be set directly', () => {
+    it('can also be updated directly', () => {
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
       _addToken(_colToken());
       _addToken(_colToken());
       _addToken(_colToken());
-      _setInsertIndex(1);
+      _updateInsertIndex(1);
       assert.equal(PartialQueryStore.getInsertIndex(), 1);
-      _setInsertIndex(3);
+      _updateInsertIndex(3);
       assert.equal(PartialQueryStore.getInsertIndex(), 3);
-      _setInsertIndex(10);
+      _updateInsertIndex(10);
       assert.equal(PartialQueryStore.getInsertIndex(), 3);
-      _setInsertIndex(-1);
+      _updateInsertIndex(-1);
       assert.equal(PartialQueryStore.getInsertIndex(), 0);
     });
   });

@@ -23,7 +23,7 @@ class PartialQuery {
     );
   }
 
-  setInsertIndex(newIndex) {
+  updateInsertIndex(newIndex) {
     this._insertIndex = Math.min(
       this._tokens.length,
       Math.max(0, newIndex)
